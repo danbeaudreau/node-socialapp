@@ -1,10 +1,17 @@
-
+var User     = require('./models/user');
+var passport = require('passport');
 module.exports = function(router) {
-    var User = require('./models/user');
-    var validate = require('./validate');
 
-    router.get('/', function(req, res) {
-        res.sendfile('./public/index.html');
+    router.get('/profile', function(req, res) {
+        res.render('profile', {user : req.user });
+    });
+
+    router.get('/register', function(req, res) {
+        res.sendfile('./views/register.html');
+    });
+
+    router.get('/login', function(req, res) {
+        res.render('login', {user: req.user});
     });
 
     router.get('/api/allusers', function(req, res) {
@@ -17,18 +24,21 @@ module.exports = function(router) {
     });
 
     router.post('/api/create', function(req, res) {
-            var user = new User();
-            user.name = req.body.name;
-            user.password = req.body.password;
-            var validated = validate(user);
-            if(validated) {
-                user.save(function(err){
-                    if (err)
-                        res.send(err);
-                    res.json({ message: 'User created successfully.' + user.name});
-                });
+        User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+            if(err) {
+                console.log(err);
             }
+            res.send(user);
+        });
     });
 
+
+     router.post('/login', passport.authenticate('local'), function(req, res) {
+          if(req.user) {    
+            res.send({
+             status: 'success'
+            });
+          }
+    });
 
 };

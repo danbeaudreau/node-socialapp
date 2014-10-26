@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" ng-app="userLogin">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <title>User creation API</title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-route/angular-route.min.js"></script>
+    <script src="js/userLogin.js"></script>
+    <script src="js/userLoginController.js"></script>
+</head>
+
+<body ng-controller="userLoginController">
+<div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/register">Register user</a>
+            <a class="navbar-brand" href="/login">Log in</a>
+        </div>
+    </nav>
+
+    <form role="form" ng-submit="createUser()">
+        <div class="form-group">
+            <label>Username: </label>
+            <input type="text" id="username" ng-model="username" placeholder="Enter username"></input>
+        </div>
+        <div class="form-group">
+            <label>Password: </label><input type="text" id="password" ng-model="password" placeholder="Enter password"></input>
+        </div>
+        <input type="submit" class="btn btn-default" value="Login" />
+    </form>
+
+</div>
+</body>
+</html>

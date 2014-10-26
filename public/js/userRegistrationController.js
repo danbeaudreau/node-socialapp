@@ -4,6 +4,6 @@ app.controller("userRegistrationController", function ($scope, $http) {
 
 
 	$scope.createUser = function(){
-		$http.post('/api/create', {name: $scope.username, password: $scope.password});
+		$http.post('/api/create', {username: $scope.username, password: $scope.password});
 	};
 });
