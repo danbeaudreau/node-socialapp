@@ -12,6 +12,7 @@
 		    "bcrypt-nodejs" : "latest",
 		    "express-session": "latest",
         "passport-local-mongoose": "latest",
-        "ejs" : "latest"
+        "ejs" : "latest",
+        "fs" : "latest"
       }
     }

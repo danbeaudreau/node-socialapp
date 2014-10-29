@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <base href="/">
-    <% if (user) { %>
-        <title><%= user.username %></title>
-    <% } %>
+    <title>Social Application built with NodeJS!</title>
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
@@ -22,22 +20,11 @@
             <% } %>
         </div>
     </nav>
-
-    <% if (user) { %>
-    <div class="container-fluid">
-     <div class="row-fluid">
-        <div class="span2">
-            <span class="navbar-brand" href="/login">Welcome <%= user.username %>!</span>
-        </div>
-        <div class="span10">
-         <!--Body content-->
-        </div>
-     </div>
+    <div class="jumbotron">
+        <h1>Social Application built with NodeJS!</h1>
+        <p>Application built to use the functionality of the MEAN stack as well as various external dependencies.</p>
     </div>
-    <% } %>
 
 </div>
 </body>
 </html>
-
-

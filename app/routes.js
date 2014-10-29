@@ -1,6 +1,17 @@
 var User     = require('./models/user');
 var passport = require('passport');
+var profileTemplate = require('./profile');
+var ejs = require('ejs');
+var fs = require('fs');
 module.exports = function(router) {
+
+    router.get('/', function(req, res) {
+        res.render('index', {user : req.user });
+    });
+
+    router.get('/user/*', function(req, res) {
+       res.render('./views/user/' + req.params[0] + '.ejs');
+    });
 
     router.get('/profile', function(req, res) {
         res.render('profile', {user : req.user });
@@ -27,8 +38,20 @@ module.exports = function(router) {
         User.register(new User({username: req.body.username}), req.body.password, function(err, user){
             if(err) {
                 console.log(err);
+                return;
             }
-            res.send(user);
+            
+            var path = "views/user/" + req.body.username.toLowerCase() + ".ejs";
+            if(!fs.existsSync(path)) {
+               fs.writeFile(path, profileTemplate, function (err) {
+                 if (err) {
+                  console.log(err);
+                  return;
+                 }
+              });
+
+            }
+            
         });
     });
 
