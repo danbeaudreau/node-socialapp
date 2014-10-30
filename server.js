@@ -29,7 +29,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 var db = require('./config/db');
-var port = process.env.PORT || 8080; 
+var port = process.env.PORT || 3000; 
 mongoose.connect(db.url); 
 
 

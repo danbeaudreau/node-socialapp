@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <base href="/">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
@@ -15,21 +15,22 @@
 <div class="container">
     <nav class="navbar navbar-inverse">
         <div class="navbar-header">
-         <%- include navbar.ejs %>
+            <%- include navbar.ejs %>
+
         </div>
     </nav>
 
-    <div class="container">
-        <form role="form" class="form-signin" ng-submit="login()">
+    <form role="form" ng-submit="createUser()">
             <div class="form-group">
                 <div class="span2"><label>Username: </label></div><div class="span2"><input type="text" id="username" ng-model="username" placeholder="Enter username"></input></div>
             </div>
-            <div class="form-group span2">
+            <div class="form-group">
                 <div class="span2"><label>Password: </label></div><div class="span2"><input type="password" id="password" ng-model="password" placeholder="Enter password"></input></div>
             </div>
-            <input type="submit" class="btn btn-default" value="Login" />
-        </form>
-    </div>
+        <input type="submit" class="btn btn-default" value="Register" />
+    </form>
+
+    <div ng-show="success" class="alert alert-success">User created successfully! Click <a ng-show="success" ng-href="/{{username}}">here</a> to see your new profile.</div>
 
 </div>
 </body>

@@ -5,7 +5,7 @@ app.controller("userLoginController", function ($scope, $http) {
 
 	$scope.createUser = function(){
 		$http.post('/login', {username: $scope.username, password: $scope.password}).success(function(data, status, headers, config) {
-   			window.location = '/profile';
+   			window.location = '/' + $scope.username;
 		});;
 	};
 });

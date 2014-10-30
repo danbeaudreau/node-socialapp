@@ -1,0 +1,9 @@
+            <a class="navbar-brand" href="/">Home</a>
+            <% if (user) { %>
+            <a class="navbar-brand" href="/<%= user %>"><%= user %></a>
+            <a class="navbar-brand" href="/settings">Settings</a>
+            <a class="navbar-brand" href="/logout">Logout</a>
+            <% } else { %>
+             <a class="navbar-brand" href="/register">Register</a>
+            <a class="navbar-brand" href="/login">Log in</a>
+            <% } %>

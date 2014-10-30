@@ -13,16 +13,12 @@
 <div class="container">
     <nav class="navbar navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/register">Register user</a>
-            <a class="navbar-brand" href="/login">Log in</a>
-            <% if (user) { %>
-            <a class="navbar-brand" href="/login"><%= user.username %></a>
-            <% } %>
+         <%- include navbar.ejs %>
         </div>
     </nav>
     <div class="jumbotron">
-        <h1>Social Application built with NodeJS!</h1>
-        <p>Application built to use the functionality of the MEAN stack as well as various external dependencies.</p>
+        <h1>Social application built with NodeJS!</h1>
+        <p>Uses the functionality of the MEAN stack as well as various external dependencies.</p>
     </div>
 
 </div>
