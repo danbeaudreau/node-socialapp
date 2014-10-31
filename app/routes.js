@@ -75,14 +75,14 @@ module.exports = function(router) {
     router.post('/api/create', function(req, res) {
         User.register(new User({username: req.body.username}), req.body.password, function(err, user){
             if(err) {
-                console.log('!!!!' + err);
+                console.log(err);
                 return;
             }
             var path = "views/" + req.body.username.toLowerCase() + ".ejs";
             if(!fs.existsSync(path)) {
                fs.writeFile(path, profileTemplate, function (err) {
                  if (err) {
-                  console.log('!!' + err);
+                  console.log(err);
                   return;
                  }
               });
