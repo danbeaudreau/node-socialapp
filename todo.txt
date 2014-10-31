@@ -1,0 +1,6 @@
+consolidate controllers
+resuable navbar
+user posts
+user images
+friends
+comments?
