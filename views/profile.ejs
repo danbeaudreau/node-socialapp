@@ -11,7 +11,7 @@
       <script src="js/profileController.js"></script>
       <script> 
          window.profileName = "<%= profileName %>"; 
-         window.profileImageURL ="<%= profileImageURL %>"
+         window.profileImageURL ="<%= profileImageURL %>";
       </script>
    </head>
    <body ng-controller="profileController">
@@ -26,9 +26,10 @@
                </div>
                <div class="col-md-8">
                   <h3><%= profileName%></h3>
-                  <h6>Joined: </h6>
-                  <h6>Posts: </h6>
-                  <h6>Profile Views: </h6>
+                  <h6>Joined: <%= joinDate%></h6>
+                  <% if(bio) { %>
+                  <h6>Bio: <%= bio %></h6>
+                  <% } %>
                </div>
             </div>
             <div class="row">

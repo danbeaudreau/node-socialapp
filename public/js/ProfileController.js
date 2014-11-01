@@ -3,7 +3,10 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.userMessages;
 	$scope.profileName = window.profileName;
 	$scope.profileImageURL = window.profileImageURL;
-	$scope.profileImageURLSettings;
+	$scope.joinDate = window.joinDate;
+	$scope.bio = window.bio;
+	$scope.profileImageURLSettings = window.profileImageURL;
+	$scope.bioSettings = window.bio;
 	$scope.messagePostSuccess = false;
 	$scope.settingPostSuccess = false;
 
@@ -20,11 +23,13 @@ app.controller("profileController", function ($scope, $http) {
 	};
 
 	$scope.changeSettings = function() {
-	$http.post('/changeSettings', {profileImageURL : $scope.profileImageURLSettings}).success(function(data, status, headers, config){
+	$http.post('/changeSettings', {profileImageURL : $scope.profileImageURLSettings, bio : $scope.bioSettings}).success(function(data, status, headers, config){
 			$scope.profileImageURL = $scope.profileImageURLSettings;
+			$scope.bio = $scope.bioSettings;
 			$scope.settingPostSuccess = true;
 		});
 	};
+
 
 	initializePage = function() {
 		$scope.getMessages();

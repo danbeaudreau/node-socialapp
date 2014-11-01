@@ -1,6 +1,3 @@
-user information [join date, gender, age, etc]
-friends
+message system revamp [author]
 formatting on page
-comments
-settings page
-home page with feed from friends
+friends
