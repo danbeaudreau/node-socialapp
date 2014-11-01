@@ -1,4 +1,4 @@
-user images / user information [settings, join date, posts, view count]
+user information [join date, gender, age, etc]
 friends
 formatting on page
 comments

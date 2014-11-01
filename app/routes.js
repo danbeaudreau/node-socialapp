@@ -1,5 +1,6 @@
 var User            = require('./models/user');
 var Message         = require('./models/messages');
+var Settings        = require('./models/Settings');
 var passport        = require('passport');
 var profileTemplate = require('./profile');
 var ejs             = require('ejs');
@@ -43,14 +44,26 @@ module.exports = function(router) {
       });
     });
 
- /*   router.get('/api/allusers', function(req, res) {
-        User.find(function(err, user) {
+    router.get('/api/allusers', function(req, res) {
+        Settings.find(function(err, settings) {
                  if (err)
                      res.send(err);
 
-                 res.json(user);
+                 res.json(settings);
         });
-    }); */ //for debugging purposes
+    }); 
+    router.post('/changeSettings', function(req, res) {
+      if(req.isAuthenticated()) {
+        Settings.update({username: req.session.passport.user}, {$set: { profileImageURL: req.body.profileImageURL }}, {upsert: false}, function(err){
+          if(err) {
+            return;
+          }
+          res.send({
+            status: 'success'
+          });
+        });
+      }
+    });
 
 
     router.post('/postMessage', function(req, res) {
@@ -87,6 +100,12 @@ module.exports = function(router) {
               });
 
             }
+            var settings = new Settings({username: req.body.username, profileImageURL: "/images/default-avatar.jpg"});
+            settings.save(function(error, settings) {
+              if(error){
+                return;
+              }
+            });
             
         });
         res.send({
@@ -103,9 +122,17 @@ module.exports = function(router) {
           }
     });
 
+     router.get('/favicon.ico', function(req, res) {
+       res.sendfile('images/favicon.png');
+     });
+
     router.get('*', function(req, res) { //show the current user
       var path = req.params[0].toLowerCase() + '.ejs';
-      res.render(path.slice(1), {user : req.session.passport.user, profileName : req.params[0].toLowerCase().substr(1)});
+      var profileImageURL;
+      Settings.findOne({username : req.session.passport.user}, function(err, settings){
+        profileImageURL = settings.profileImageURL;
+        res.render(path.slice(1), {user : req.session.passport.user, profileName : req.params[0].toLowerCase().substr(1), profileImageURL: profileImageURL});
+      });
     });
 
 
