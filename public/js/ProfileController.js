@@ -1,6 +1,8 @@
 app.controller("profileController", function ($scope, $http) {
 	$scope.message;
-	$scope.usermessages;
+	$scope.userMessages;
+	$scope.profileName = window.profileName;
+	$scope.user = window.user;
 	$scope.success = false;
 
 	$scope.postMessage = function() {
@@ -10,9 +12,15 @@ app.controller("profileController", function ($scope, $http) {
 	};
 
 	$scope.getMessages = function() {
-//	$http.get('getMessages?user='+)
-
-
+	$http.get('getMessages?user=' + $scope.profileName).success(function(data, status, headers, config){
+			$scope.userMessages = data;
+		});
 	};
+
+	initializePage = function() {
+		$scope.getMessages();
+	};
+
+	initializePage();
 
 });

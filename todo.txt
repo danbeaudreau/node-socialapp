@@ -1,6 +1,6 @@
-consolidate controllers
-resuable navbar
-user posts
-user images
+user images / user information [settings, join date, posts, view count]
 friends
-comments?
+formatting on page
+comments
+settings page
+home page with feed from friends

@@ -1,6 +1,48 @@
- <form role="form" class="form-signin" ng-submit="postMessage()">
-            <div class="form-group">
-                <div class="span2"><label>Message: </label></div><div class="span2"><input type="text" ng-model="message"></input></div>
+<html lang="en" ng-app="profile">
+   <head>
+      <meta charset="UTF-8">
+      <base href="/">
+      <title><%= profileName%></title>
+      <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/profile.css">
+      <script src="libs/angular/angular.min.js"></script> 
+      <script src="libs/angular-route/angular-route.min.js"></script>
+      <script src="js/profile.js"></script>
+      <script src="js/profileController.js"></script>
+      <script> 
+         window.profileName = "<%= profileName %>"; 
+      </script>
+   </head>
+   <body ng-controller="profileController">
+      <div class="container">
+         <nav class="navbar navbar-inverse">
+            <div class="navbar-header"> <%- include navbar.ejs %></div>
+         </nav>
+         <div class="container well span6">
+            <div class="row">
+               <div class="col-md-4">
+                  <img id="profileImage" src="">
+               </div>
+               <div class="col-md-8">
+                  <h3><%= profileName%></h3>
+                  <h6>Joined: </h6>
+                  <h6>Posts: </h6>
+                  <h6>Profile Views: </h6>
+               </div>
             </div>
-       	  <input type="submit" class="btn btn-default" value="Post!" />
-</form>
+            <div class="row">
+               <form role="form" class="col-md-4" ng-submit="postMessage()">
+                  <div class="form-group">
+                     <div class="span2">
+                        <input type="text" ng-model="message"></input>
+                        <input type="submit" class="btn btn-default" value="Post!" />
+                     </div>
+                  </div>
+               </form>
+               <ul class = "col-md-4">
+               <li ng-repeat="message in userMessages"> {{message}} </li>
+               </ul>
+         	</div>
+      </div>
+   </body>
+</html>

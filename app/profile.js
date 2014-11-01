@@ -1,2 +1,2 @@
-var html = "<html lang=\"en\" ng-app=\"profile\"><head> <meta charset=\"UTF-8\"> <base href=\"/\"><title>Profile</title><link rel=\"stylesheet\" href=\"libs/bootstrap/dist/css/bootstrap.min.css\"> <script src=\"libs/angular/angular.min.js\"></script> <script src=\"libs/angular-route/angular-route.min.js\"></script><script src=\"js/profile.js\"></script><script src=\"js/profileController.js\"></script></head><body ng-controller=\"profileController\"><div class=\"container\"> <nav class=\"navbar navbar-inverse\"><div class=\"navbar-header\"> <%- include navbar.ejs %></div></nav><%- include profile.ejs %></div></body></html>";
+var html = "<%- include profile.ejs %>";
 module.exports = html;

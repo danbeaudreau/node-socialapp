@@ -4,7 +4,6 @@ var passport        = require('passport');
 var profileTemplate = require('./profile');
 var ejs             = require('ejs');
 var fs              = require('fs');
-var connectFlash    = require('connect-flash');
 module.exports = function(router) {
 
     router.get('/', function(req, res) {
@@ -106,7 +105,7 @@ module.exports = function(router) {
 
     router.get('*', function(req, res) { //show the current user
       var path = req.params[0].toLowerCase() + '.ejs';
-      res.render(path.slice(1), {user : req.session.passport.user});
+      res.render(path.slice(1), {user : req.session.passport.user, profileName : req.params[0].toLowerCase().substr(1)});
     });
 
 
