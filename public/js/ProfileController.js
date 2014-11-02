@@ -11,7 +11,7 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.settingPostSuccess = false;
 
 	$scope.postMessage = function() {
-		$http.post('/postMessage', {message: $scope.message}).success(function(data, status, headers, config){
+		$http.post('/postMessage', {message: $scope.message, username: $scope.profileName}).success(function(data, status, headers, config){
 			$scope.messagePostSuccess = true;
 		});
 	};
@@ -19,6 +19,13 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.getMessages = function() {
 	$http.get('getMessages?user=' + $scope.profileName).success(function(data, status, headers, config){
 			$scope.userMessages = data;
+			for(var key in $scope.userMessages) {
+			 if (!$scope.userMessages.hasOwnProperty(key)) {
+        		continue;
+    		 }
+    		 getUserImage(key);
+    		 //this is handled in another function due to async requests
+		}
 		});
 	};
 
@@ -30,6 +37,11 @@ app.controller("profileController", function ($scope, $http) {
 		});
 	};
 
+	getUserImage = function(key) {
+		$http.get('/getImage?user=' + $scope.userMessages[key].author).success(function(data, status, headers, config){
+				$scope.userMessages[key].profileImageURL = data;
+		});
+	};
 
 	initializePage = function() {
 		$scope.getMessages();

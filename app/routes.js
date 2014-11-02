@@ -30,15 +30,21 @@ module.exports = function(router) {
 
     router.get('/getMessages', function(req,res){
       var messagesQuery = Message.find({username : req.param('user')});
-      var allMessages = new Array();
       messagesQuery.exec(function(err, messages){
         if(err){
           return;
         }
-        messages.forEach(function(messages){
-          allMessages.push(messages.message);
-        });
-        res.json(allMessages);
+        res.json(messages);
+      });
+    });
+
+    router.get('/getImage', function(req, res) {
+      var imageQuery = Settings.find({username : req.param('user')});
+      imageQuery.exec(function(err, user){
+        if(err){
+          return;
+        }
+        res.send(user[0].profileImageURL);
       });
     });
 
@@ -68,8 +74,9 @@ module.exports = function(router) {
     router.post('/postMessage', function(req, res) {
       if(req.isAuthenticated()) {
         var messageData = {
-          username: req.session.passport.user,
-          message: req.body.message
+          author: req.session.passport.user,
+          message: req.body.message,
+          username: req.body.username
         };
         var message = new Message(messageData);
         message.save(function(error, message){

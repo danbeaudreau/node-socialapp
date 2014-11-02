@@ -11,7 +11,7 @@ app.controller("userRegistrationController", function ($scope, $http) {
 	};
 
 	$scope.login = function(){
-		$http.post('/login', {username: $scope.username, password: $scope.password}).success(function(data, status, headers, config) {
+		$http.post('/login', {username: $scope.username.toLowerCase(), password: $scope.password}).success(function(data, status, headers, config) {
    			window.location = '/' + $scope.username;
 		});;
 	};
