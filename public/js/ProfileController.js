@@ -13,6 +13,7 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.postMessage = function() {
 		$http.post('/postMessage', {message: $scope.message, username: $scope.profileName}).success(function(data, status, headers, config){
 			$scope.messagePostSuccess = true;
+			location.reload();
 		});
 	};
 
@@ -36,6 +37,11 @@ app.controller("profileController", function ($scope, $http) {
 			$scope.settingPostSuccess = true;
 		});
 	};
+
+	$scope.reverse = function(obj) {
+         var copy = [].concat(array);
+          return copy.reverse();
+	}
 
 	getUserImage = function(key) {
 		$http.get('/getImage?user=' + $scope.userMessages[key].author).success(function(data, status, headers, config){
