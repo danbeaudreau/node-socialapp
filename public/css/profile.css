@@ -34,7 +34,7 @@ ul,li {
 .message-image {
 	max-width: 100px;
 	min-width: 100px;
-	max-height: 100px;
+	max-height: 300px;
 	border: solid #ddd;
 	margin: 5px;
 
@@ -54,6 +54,6 @@ ul,li {
    display: inline-block;
    margin-left: 0px;
    margin-top: 20px;
-   left: 90px;
+   left: 115px;
 
 }

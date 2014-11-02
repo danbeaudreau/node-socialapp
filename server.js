@@ -2,7 +2,6 @@ var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var mongoose	   = require('mongoose');
-var connectFlash   = require('connect-flash');
 var ejs 		   = require('ejs');
 
 //authentication related dependencies
@@ -18,7 +17,6 @@ app.use(cookieParser());
 app.use(session({secret: 'happy'}));
 app.use(passport.initialize());
 app.use(passport.session()); 
-app.use(connectFlash());
 
 app.use(express.static(__dirname + '/public'));
 

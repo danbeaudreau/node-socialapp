@@ -8,8 +8,6 @@
 		    "cookie-parser" : "latest",
         "passport" : "latest", 		
 		    "passport-local" : "latest",
-		    "connect-flash" : "latest", 	
-		    "bcrypt-nodejs" : "latest",
 		    "express-session": "latest",
         "passport-local-mongoose": "latest",
         "ejs" : "latest",
