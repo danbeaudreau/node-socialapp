@@ -1,7 +1,9 @@
-node-socialapp
+Node Social Application
 ==============
 
 REST API and front-end for simple web chat application.
+
+![alt tag](http://i.imgur.com/jjaxc5P.png?1)
 
 Installation:
 =============
