@@ -42,9 +42,9 @@
                   </form>
                   <ul class="message-list">
                      <li ng-repeat="message in userMessages" class="message">
-                        <img ng-src="{{message.profileImageURL}}"/>
+                        <img class="message-image" ng-src="{{message.profileImageURL}}"/>
                         <a ng-href="/{{message.author}}" class="author">{{message.author}}</a>
-                        <span class="">{{message.message}}</span>
+                        <div class="content">{{message.message}}</div>
                      </li>
                   </ul>
                </div>
