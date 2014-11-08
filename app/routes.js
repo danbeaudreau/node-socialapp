@@ -1,6 +1,7 @@
 var User            = require('./models/user');
 var Message         = require('./models/messages');
 var Settings        = require('./models/Settings');
+var Friends         = require('./models/friends');
 var passport        = require('passport');
 var profileTemplate = require('./profile');
 var ejs             = require('ejs');
@@ -38,6 +39,16 @@ module.exports = function(router) {
       });
     });
 
+    router.get('/getFriends', function(req, res) {
+      var friendsQuery = Friends.find({username : req.param('user')});
+      friendsQuery.exec(function(err, friends){
+        if(err){
+          return;
+        }
+        res.json(friends);
+      });
+    });
+
     router.get('/getImage', function(req, res) {
       var imageQuery = Settings.find({username : req.param('user')});
       imageQuery.exec(function(err, user){
@@ -56,6 +67,25 @@ module.exports = function(router) {
     //              res.json(settings);
     //     });
     // }); 
+
+    router.post('/addFriend', function(req, res) {
+      if(req.isAuthenticated()){
+        var friendData = {
+          username: req.session.passport.user,
+          friend:   req.param.friend,
+          date:     new Date()
+        };
+        var friend = new Friends(friendData);
+        friend.save(function(error, friend){
+          if(error){
+            return;
+          }
+        });
+        res.send({
+             status: 'success'
+        });
+      }
+    });
 
     router.post('/changeSettings', function(req, res) {
       if(req.isAuthenticated()) {
