@@ -34,10 +34,19 @@
 }
 
 
-#friendsmodule{
+.friendsmodule{
 	position: relative;
+	margin-top:5px;
+	width:100%;
+	border: solid #ddd;
+    border-width: 1px;
+    background: #fff;
+}
+
+.friendlink {
 
 }
+
 input {
 	position:relative;
     top:0px;

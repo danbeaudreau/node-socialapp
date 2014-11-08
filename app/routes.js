@@ -70,13 +70,25 @@ module.exports = function(router) {
 
     router.post('/addFriend', function(req, res) {
       if(req.isAuthenticated()){
+        var friendshipDate = new Date();
         var friendData = {
           username: req.session.passport.user,
-          friend:   req.param.friend,
-          date:     new Date()
+          friend:   req.body.friend,
+          date:     friendshipDate
+        };
+        var linkedFriendData = {
+          username: req.body.friend,
+          friend:   req.session.passport.user,
+          date:     friendshipDate
         };
         var friend = new Friends(friendData);
+        var linkedFriend = new Friends(linkedFriendData);
         friend.save(function(error, friend){
+          if(error){
+            return;
+          }
+        });
+        linkedFriend.save(function(error, friend){
           if(error){
             return;
           }

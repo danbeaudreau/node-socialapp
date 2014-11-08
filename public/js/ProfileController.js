@@ -1,6 +1,7 @@
 app.controller("profileController", function ($scope, $http) {
 	$scope.message;
 	$scope.userMessages;
+	$scope.userFriends;
 	$scope.profileName = window.profileName;
 	$scope.profileImageURL = window.profileImageURL;
 	$scope.joinDate = window.joinDate;
@@ -18,15 +19,27 @@ app.controller("profileController", function ($scope, $http) {
 	};
 
 	$scope.getMessages = function() {
-	$http.get('getMessages?user=' + $scope.profileName).success(function(data, status, headers, config){
+		$http.get('getMessages?user=' + $scope.profileName).success(function(data, status, headers, config){
 			$scope.userMessages = data;
 			for(var key in $scope.userMessages) {
-			 if (!$scope.userMessages.hasOwnProperty(key)) {
-        		continue;
-    		 }
-    		 getUserImage(key);
+				 if (!$scope.userMessages.hasOwnProperty(key)) {
+        			continue;
+    		 	}
+    		 getUserImage(key, $scope.userMessages, "author");
     		 //this is handled in another function due to async requests
-		}
+			}
+		});
+	};
+
+	$scope.getFriends = function() {
+		$http.get('getFriends?user=' + $scope.profileName).success(function(data, status, headers, config){
+			$scope.userFriends = data;
+			for(var key in $scope.userFriends) {
+				if(!$scope.userFriends.hasOwnProperty(key)) {
+					continue;
+				}
+			    getUserImage(key, $scope.userFriends, "friend");
+			}
 		});
 	};
 
@@ -43,14 +56,15 @@ app.controller("profileController", function ($scope, $http) {
          return copy.reverse();
 	}
 
-	getUserImage = function(key) {
-		$http.get('/getImage?user=' + $scope.userMessages[key].author).success(function(data, status, headers, config){
-				$scope.userMessages[key].profileImageURL = data;
+	getUserImage = function(key, arrayType, userType) {
+		$http.get('/getImage?user=' + arrayType[key][userType]).success(function(data, status, headers, config){
+				arrayType[key].profileImageURL = data;
 		});
 	};
 
 	initializePage = function() {
 		$scope.getMessages();
+		$scope.getFriends();
 	};
 
 	initializePage();
