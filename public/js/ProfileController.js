@@ -38,9 +38,9 @@ app.controller("profileController", function ($scope, $http) {
 		});
 	};
 
-	$scope.reverse = function(obj) {
+	$scope.reverse = function(array) {
          var copy = [].concat(array);
-          return copy.reverse();
+         return copy.reverse();
 	}
 
 	getUserImage = function(key) {

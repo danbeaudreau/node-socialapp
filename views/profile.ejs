@@ -19,35 +19,39 @@
          <nav class="navbar navbar-inverse">
             <div class="navbar-header"> <%- include navbar.ejs %></div>
          </nav>
-         <div class="well">
+         <div class="well well-sm">
             <div class="row">
-               <div class="col-md-2">
-                  <img id="profileImage" ng-src="{{profileImageURL}}">
+               <div id="profilemodule" class="col-md-4">
+                  <div class="profile-module-column profile-image-container">
+                     <img id="profileImage" ng-src="{{profileImageURL}}">
+                  </div>
+                  <div id="profileinfo" class="profile-module-column profile-info-container">
+                     <h3><%= profileName%></h3>
+                     <h6>Joined: <%= joinDate%></h6>
+                     <% if(bio) { %>
+                     <h6>Bio: <%= bio %></h6>
+                     <% } %>
+                  </div>
                </div>
-               <div class="col-md-2">
-                  <h3><%= profileName%></h3>
-                  <h6>Joined: <%= joinDate%></h6>
-                  <% if(bio) { %>
-                  <h6>Bio: <%= bio %></h6>
-                  <% } %>
-               </div>
-               <div class = "col-md-10">
-                  <form role="form" ng-submit="postMessage()">
-                     <div class="form-group">
-                        <div class="span2">
-                           <input type="text" ng-model="message"></input>
-                           <input type="submit" class="btn btn-default" value="Post!" />
+               <div class="row-fluid">
+                  <div class = "col-md-8">
+                     <form role="form" ng-submit="postMessage()">
+                        <div class="form-group">
+                           <div class="span2">
+                              <input type="text" ng-model="message"></input>
+                              <input type="submit" class="btn btn-default" value="Post!" />
+                           </div>
                         </div>
-                     </div>
-                  </form>
-                  <ul class="message-list">
-                     <li ng-repeat="message in reverse(userMessages) | orderBy:'$index':true" class="message">
-                        <a ng-href="/{{message.author}}"><img class="message-image" ng-src="{{message.profileImageURL}}"/></a>
-                        <a ng-href="/{{message.author}}" class="author">{{message.author}}</a>
-                        <div class="content">{{message.message}}</div>
-                     </li>
-                  </ul>
-               </div>
+                     </form>
+                     <ul class="message-list">
+                        <li ng-repeat="message in reverse(userMessages) | orderBy:'$index':true" class="message">
+                           <a ng-href="/{{message.author}}"><img class="message-image" ng-src="{{message.profileImageURL}}"/></a>
+                           <a ng-href="/{{message.author}}" class="author">{{message.author}}</a>
+                           <div class="content">{{message.message}}</div>
+                        </li>
+                     </ul>
+                  </div>
+                </div>  
             </div>
          </div>
       </div>

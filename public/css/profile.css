@@ -1,8 +1,42 @@
 #profileImage {
+	min-width: 310px;
+	max-width: 310px;
+	min-height: 310px;
+	max-height: 310px;
 	border: solid #ddd;
-	min-width:100%;
-	max-width:100%;
-	max-height:400px;
+    border-width: 1px;
+}
+
+#profilemodule {
+	overflow: auto;
+}
+
+.profile-module-column {
+    vertical-align: top;
+    background: #fff;
+}
+
+.profile-image-container {
+	border-top: solid #ddd;
+	border-left: solid #ddd;
+	border-right: solid #ddd;
+    border-width: 1px;
+    padding: 18px;
+}
+
+.profile-info-container {
+	border: solid #ddd;
+    border-width: 1px;
+}
+#profileinfo {
+	padding-left:20px;
+	padding-right:20px;
+}
+
+
+#friendsmodule{
+	position: relative;
+
 }
 input {
 	position:relative;
@@ -15,9 +49,13 @@ ul,li {
     margin:0;
     padding:0;
  }
+.body {
+	max-width: 100%;
+	max-height: 100%;
+}
 
 .message {
-	max-width:600px;
+	max-width:100%;
 	background: #fff;
 	margin-bottom: 1px;
 	margin-left: 5px;
@@ -34,7 +72,8 @@ ul,li {
 .message-image {
 	max-width: 100px;
 	min-width: 100px;
-	max-height: 300px;
+	max-height: 100px;
+	min-height: 100px;
 	border: solid #ddd;
 	margin: 5px;
 
