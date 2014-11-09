@@ -2,6 +2,7 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.message;
 	$scope.userMessages;
 	$scope.userFriends;
+	$scope.friendsCount;
 	$scope.profileName = window.profileName;
 	$scope.profileImageURL = window.profileImageURL;
 	$scope.joinDate = window.joinDate;
@@ -34,6 +35,7 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.getFriends = function() {
 		$http.get('getFriends?user=' + $scope.profileName).success(function(data, status, headers, config){
 			$scope.userFriends = data;
+			$scope.friendsCount = ' (' + data.length + ')';
 			for(var key in $scope.userFriends) {
 				if(!$scope.userFriends.hasOwnProperty(key)) {
 					continue;
@@ -42,6 +44,12 @@ app.controller("profileController", function ($scope, $http) {
 			}
 		});
 	};
+
+	$scope.addFriend = function() {
+		$http.post('/makeFriendReqest', {recipient: $scope.profileName}).success(function(data, status, headers, config){
+			//[todo] implement success message, remove link if friend request is pending
+		});
+	}
 
 	$scope.changeSettings = function() {
 	$http.post('/changeSettings', {profileImageURL : $scope.profileImageURLSettings, bio : $scope.bioSettings}).success(function(data, status, headers, config){

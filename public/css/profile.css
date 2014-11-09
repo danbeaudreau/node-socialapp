@@ -36,15 +36,17 @@
 
 .friendsmodule{
 	position: relative;
-	margin-top:5px;
+	margin-top:7px;
 	width:100%;
 	border: solid #ddd;
     border-width: 1px;
     background: #fff;
 }
 
-.friendlink {
-
+.friendsmodule h5 {
+	display: inline-block;
+	padding-top: 2px;
+	padding-right: 3px;
 }
 
 input {

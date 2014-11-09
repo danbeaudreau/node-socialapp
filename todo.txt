@@ -1,3 +1,4 @@
-message system revamp [author]
-formatting on page
-friends
+more user information [alerts for friend requests, link disappears when they're sent]
+private messaging system
+overflow pages for friends and feed/comments
+more validation for bad user input
