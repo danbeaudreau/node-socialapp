@@ -21,6 +21,9 @@ app.controller("profileController", function ($scope, $http) {
 
 	$scope.getMessages = function() {
 		$http.get('getMessages?user=' + $scope.profileName).success(function(data, status, headers, config){
+			if(data.length > 6) { //limit the amount of messages to 6
+				data = data.splice(data.length - 6, 6);
+			}
 			$scope.userMessages = data;
 			for(var key in $scope.userMessages) {
 				 if (!$scope.userMessages.hasOwnProperty(key)) {
@@ -34,6 +37,9 @@ app.controller("profileController", function ($scope, $http) {
 
 	$scope.getFriends = function() {
 		$http.get('getFriends?user=' + $scope.profileName).success(function(data, status, headers, config){
+			if(data.length > 6) { //limit the amount of friends to 6
+				data = data.splice(0, 6);
+			}
 			$scope.userFriends = data;
 			$scope.friendsCount = ' (' + data.length + ')';
 			for(var key in $scope.userFriends) {

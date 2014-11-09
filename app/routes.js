@@ -74,14 +74,14 @@ module.exports = function(router) {
 
     
 
-    router.get('/api/allusers', function(req, res) { //debugging function
-        Request.find(function(err, settings) {
-                 if (err)
-                     res.send(err);
+    // router.get('/api/allusers', function(req, res) { //debugging function
+    //     Request.find(function(err, settings) {
+    //              if (err)
+    //                  res.send(err);
 
-                 res.json(settings);
-        });
-    }); 
+    //              res.json(settings);
+    //     });
+    // }); 
 
     router.post('/makeFriendReqest', function(req, res) {
       if(req.isAuthenticated()){
