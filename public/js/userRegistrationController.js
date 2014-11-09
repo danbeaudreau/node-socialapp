@@ -5,7 +5,7 @@ app.controller("userRegistrationController", function ($scope, $http) {
 	$scope.danger = false;
 
 	$scope.createUser = function(){
-		$http.post('/api/create', {username: $scope.username, password: $scope.password}).success(function(data){
+		$http.post('/api/create', {username: $scope.username.toLowerCase(), password: $scope.password}).success(function(data){
    			$scope.success = true;
 		});
 	};
