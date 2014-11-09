@@ -107,7 +107,10 @@ module.exports = function(router) {
 
     router.post('/approveFriendRequest', function(req, res) {
       if(req.isAuthenticated()){
-        Request.update({recpient: req.session.passport.user, requester: req.body.requester}, {$set: {status: "approved"}}, {upsert: false}, function(err){
+        Request.update({recipient: req.session.passport.user, requester: req.body.requester}, {$set: {status: "approved"}}, {upsert: false}, function(err, numAffected){
+          if(numAffected === 0){
+            return;
+          }
           if(err){
             return;
           }
