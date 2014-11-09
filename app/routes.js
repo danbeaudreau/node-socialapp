@@ -122,6 +122,22 @@ module.exports = function(router) {
       }
     });
 
+    router.post('/ignoreFriendRequest', function(req, res) {
+      if(req.isAuthenticated()){
+        Request.update({recipient: req.session.passport.user, requester: req.body.requester}, {$set: {status: "ignored"}}, {upsert: false}, function(err, numAffected){
+          if(numAffected === 0) {
+            return;
+          }
+          if(err) {
+            return;
+          }
+          res.send({
+            status: 'success'
+          });
+        });
+      }
+    });
+
     function addFriend(recpient, requester){
       var friendshipDate = new Date();
         var friendData = {
