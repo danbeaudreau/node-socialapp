@@ -2,6 +2,7 @@ var User            = require('./models/user');
 var Message         = require('./models/messages');
 var Settings        = require('./models/Settings');
 var Friends         = require('./models/friends');
+var Request         = require('./models/request');
 var passport        = require('passport');
 var profileTemplate = require('./profile');
 var ejs             = require('ejs');
@@ -59,45 +60,91 @@ module.exports = function(router) {
       });
     });
 
-    // router.get('/api/allusers', function(req, res) { //debugging function
-    //     Settings.find(function(err, settings) {
-    //              if (err)
-    //                  res.send(err);
-
-    //              res.json(settings);
-    //     });
-    // }); 
-
-    router.post('/addFriend', function(req, res) {
+    router.get('/getFriendRequests', function(req, res) {
       if(req.isAuthenticated()){
-        var friendshipDate = new Date();
+        var requestQuery = Request.find({recipient: req.session.passport.user, type:"friend", status: "pending"});
+        requestQuery.exec(function(err, request){
+          if(err){
+            return;
+          }
+          res.json(request);
+        });
+      }
+    });
+
+    
+
+    router.get('/api/allusers', function(req, res) { //debugging function
+        Request.find(function(err, settings) {
+                 if (err)
+                     res.send(err);
+
+                 res.json(settings);
+        });
+    }); 
+
+    router.post('/makeFriendReqest', function(req, res) {
+      if(req.isAuthenticated()){
+        var requestDate = new Date();
+        var requestData = {
+          requester: req.session.passport.user,
+          recipient: req.body.recipient,
+          type: "friend",
+          status: "pending",
+          date: requestDate
+        };
+        var request = new Request(requestData);
+        request.save(function(error, request){
+          if(error){
+            return;
+          }
+          res.send({
+               status: 'success'
+          });
+        });
+      }
+    });
+
+    router.post('/approveFriendRequest', function(req, res) {
+      if(req.isAuthenticated()){
+        Request.update({recpient: req.session.passport.user, requester: req.body.requester}, {$set: {status: "approved"}}, {upsert: false}, function(err){
+          if(err){
+            return;
+          }
+          addFriend(req.session.passport.user, req.body.requester);
+          res.send({
+               status: 'success'
+          });
+        });
+      }
+    });
+
+    function addFriend(recpient, requester){
+      var friendshipDate = new Date();
         var friendData = {
-          username: req.session.passport.user,
-          friend:   req.body.friend,
+          username: recpient,
+          friend:   requester,
           date:     friendshipDate
         };
         var linkedFriendData = {
-          username: req.body.friend,
-          friend:   req.session.passport.user,
+          username: requester,
+          friend:   recpient,
           date:     friendshipDate
         };
         var friend = new Friends(friendData);
         var linkedFriend = new Friends(linkedFriendData);
-        friend.save(function(error, friend){
+        friend.save(function(error, friend){ //need to add error handling here
           if(error){
-            return;
+            return false;
           }
         });
         linkedFriend.save(function(error, friend){
           if(error){
-            return;
+            return false;
           }
         });
-        res.send({
-             status: 'success'
-        });
-      }
-    });
+    };
+
 
     router.post('/changeSettings', function(req, res) {
       if(req.isAuthenticated()) {
