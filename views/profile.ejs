@@ -24,6 +24,9 @@
          <nav class="navbar navbar-inverse">
             <div class="navbar-header"> <%- include navbar.ejs %></div>
          </nav>
+         <div class="alert alert-success" role="alert" ng-show="friendRequestSuccess">
+            <span id="successMessage" ng-bind="successMessage"></span>
+         </div>
          <div class="well well-sm">
             <div class="row">
                <div id="profilemodule" class="col-md-4">
@@ -37,10 +40,10 @@
                      <h6>Bio: <%= bio %></h6>
                      <% } %>
                      <% if(user != profileName) { %>
-                     <a ng-click="addFriend()"><h6>Friend Request</h6></a>
+                     <a ng-click="addFriend()" ng-show="friendRequestLinkIsVisible"><h6>Friend Request</h6></a>
                      <% } %>
                   </div>
-                  <div class = "col-md-4 friendsmodule">
+                  <div class = "col-md-4 friendsmodule" ng-show="friendsModuleIsVisible">
                         <h5>Friends </h5><h5 ng-bind="friendsCount"></h5>
                         <div class="friendscontainer">
                            <div class="col-xs-4 friend" ng-repeat="friend in userFriends">

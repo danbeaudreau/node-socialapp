@@ -17,12 +17,12 @@ $(document).ready(function(){
 
 	$('body').on('click', '.approve', function () {
 	    $.post('/approveFriendRequest', {requester: $(this).attr('id')});
-	    window.reload();
+	    location.reload();
 	});
 
 	$('body').on('click', '.ignore', function () {
 	    $.post('/ignoreFriendRequest', {requester: $(this).attr('id')});
-	    window.reload();
+	    location.reload();
 	});
 
 });

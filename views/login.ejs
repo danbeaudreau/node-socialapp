@@ -18,19 +18,19 @@
          <%- include navbar.ejs %>
         </div>
     </nav>
-
-    <div class="container">
-        <form role="form" class="form-signin" ng-submit="login()">
-            <div class="form-group">
-                <div class="span2"><label>Username: </label></div><div class="span2"><input type="text" id="username" ng-model="username" placeholder="Enter username"></input></div>
-            </div>
-            <div class="form-group span2">
-                <div class="span2"><label>Password: </label></div><div class="span2"><input type="password" id="password" ng-model="password" placeholder="Enter password"></input></div>
-            </div>
-            <input type="submit" class="btn btn-default" value="Login" />
-        </form>
+    <div class="well">
+        <div class="container">
+            <form role="form" class="form-signin" ng-submit="login()">
+                <div class="form-group">
+                    <div class="span2"><label>Username: </label></div><div class="span2"><input type="text" id="username" ng-model="username" placeholder="Enter username"></input></div>
+                </div>
+                <div class="form-group span2">
+                    <div class="span2"><label>Password: </label></div><div class="span2"><input type="password" id="password" ng-model="password" placeholder="Enter password"></input></div>
+                </div>
+                <input type="submit" class="btn btn-default" value="Login" />
+            </form>
+        </div>
     </div>
-
 </div>
 </body>
 </html>

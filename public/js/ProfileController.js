@@ -3,12 +3,19 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.userMessages;
 	$scope.userFriends;
 	$scope.friendsCount;
+	$scope.successMessage;
+
+	$scope.user = window.user;
 	$scope.profileName = window.profileName;
 	$scope.profileImageURL = window.profileImageURL;
 	$scope.joinDate = window.joinDate;
 	$scope.bio = window.bio;
 	$scope.profileImageURLSettings = window.profileImageURL;
 	$scope.bioSettings = window.bio;
+
+	$scope.friendRequestLinkIsVisible = true;
+	$scope.friendsModuleIsVisible = true;
+	$scope.friendRequestSuccess = false;
 	$scope.messagePostSuccess = false;
 	$scope.settingPostSuccess = false;
 
@@ -40,6 +47,9 @@ app.controller("profileController", function ($scope, $http) {
 			if(data.length > 6) { //limit the amount of friends to 6
 				data = data.splice(0, 6);
 			}
+			if(data.length === 0){
+				$scope.friendsModuleIsVisible = false;
+			}
 			$scope.userFriends = data;
 			$scope.friendsCount = ' (' + data.length + ')';
 			for(var key in $scope.userFriends) {
@@ -53,7 +63,9 @@ app.controller("profileController", function ($scope, $http) {
 
 	$scope.addFriend = function() {
 		$http.post('/makeFriendReqest', {recipient: $scope.profileName}).success(function(data, status, headers, config){
-			//[todo] implement success message, remove link if friend request is pending
+			$scope.successMessage = "Your request has been sent successfully.";
+			$scope.friendRequestSuccess = true;
+			$scope.friendRequestLinkIsVisible = false;
 		});
 	}
 
@@ -79,6 +91,13 @@ app.controller("profileController", function ($scope, $http) {
 	initializePage = function() {
 		$scope.getMessages();
 		$scope.getFriends();
+		if($scope.user != $scope.profileName) {
+			$http.get('/getFriendRequestStatus' + '?recipient=' + $scope.profileName).success(function(data, status, headers, config){
+				if(data.length > 0) {
+					$scope.friendRequestLinkIsVisible = false;
+				}
+			});
+		}
 	};
 
 	initializePage();

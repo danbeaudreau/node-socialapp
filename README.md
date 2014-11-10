@@ -1,9 +1,14 @@
 Node Social Application
 ==============
 
-REST API and front-end for simple web chat application.
+REST API and front-end for web chat application.
 
-![Screenshot](http://i.imgur.com/jjaxc5P.png?1)
+![Screenshot](http://i.imgur.com/en1Ye2U.png)
+
+Newest Updates
+==============
+ • Profile redesign (more modular)
+ • Friends feature
 
 Installation
 =============

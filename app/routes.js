@@ -72,6 +72,18 @@ module.exports = function(router) {
       }
     });
 
+    router.get('/getFriendRequestStatus', function(req, res) {
+      if(req.isAuthenticated()){
+        var requestQuery = Request.find({recipient: req.param('recipient'), requester: req.session.passport.user, type:"friend"});
+        requestQuery.exec(function(err, request){
+          if(err){
+            return;
+          }
+          res.json(request);
+        });
+      }
+    });
+
     
 
     // router.get('/api/allusers', function(req, res) { //debugging function
