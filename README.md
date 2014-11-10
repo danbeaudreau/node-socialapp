@@ -1,4 +1,4 @@
-Node Social Application
+Node.js Social Application
 ==============
 
 REST API and front-end for web chat application.
@@ -7,8 +7,8 @@ REST API and front-end for web chat application.
 
 Newest Updates
 ==============
- • Profile redesign (more modular)
- • Friends feature
+• Profile redesign (more modular)
+• Friends feature
 
 Installation
 =============
