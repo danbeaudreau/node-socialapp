@@ -34,7 +34,9 @@ app.controller("inboxController", function ($scope, $http) {
 	};
 
 	initializePage = function() {
-		$scope.getMessages();
+		$scope.getPrivateMessages();
 	};
+
+	initializePage();
 
 });

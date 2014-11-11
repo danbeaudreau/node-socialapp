@@ -28,9 +28,17 @@
                </ul>
             </div>
             <div class="col-md-8">
-                  <div class="ui-content" ng-show="selectedTab === 0"></div>
+                  <div class="ui-content" ng-show="selectedTab === 0">
+                     <form>
+                        <p>To:</p>
+                        <input ng-model="recipient" type="text"></input>
+                        <p>Message:</p>
+                        <textarea ng-model="currentMessage" rows="4" cols="70" placeholder="Enter your message here." required></textarea>
+                        <input ng-click="sendPrivateMessage()" type="submit"></input>
+                     </form>
+                  </div>
                   <div class="ui-content" ng-show="selectedTab === 1">
-                     <li ng-repeat="message in privateMessages"></li>
+                     <li ng-repeat="message in privateMessages">{{message.message}} by {{message.author}}</li>
                   </div>
                   <div class="ui-content" ng-show="selectedTab === 2"></div>
                   <div class="ui-content" ng-show="selectedTab === 3"></div>

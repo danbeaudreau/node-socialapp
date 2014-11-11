@@ -2,7 +2,7 @@
 	overflow: auto;
 }
 
-.ui-tab {
+.ui-tab, .ui-content {
 	border: solid #ddd;
     border-width: 1px;
     background: #fff;
@@ -16,3 +16,10 @@
 #drafts-tab {
 	border-bottom: none;
 }
+
+ul,li { 
+	list-style-type: none;
+    list-style-position:inside;
+    margin:0;
+    padding:0;
+ }
