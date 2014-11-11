@@ -7,7 +7,8 @@ var privateMessageSchema = new Schema({
 	message: String,
 	date: Date,
 	isDeleted: Boolean,
-	isRepliedTo: Boolean
+	isRepliedTo: Boolean,
+	isDraft: Boolean
 });
 
 module.exports = mongoose.model('PrivateMessage', privateMessageSchema);

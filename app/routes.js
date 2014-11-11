@@ -31,6 +31,10 @@ module.exports = function(router) {
       res.render('settings', {user : req.session.passport.user});
     });
 
+    router.get('/inbox', function(req, res){
+      res.render('inbox', {user : req.session.passport.user});
+    });
+
     router.get('/getMessages', function(req,res){
       var messagesQuery = Message.find({username : req.param('user')});
       messagesQuery.exec(function(err, messages){
