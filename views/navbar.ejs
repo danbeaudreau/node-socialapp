@@ -2,6 +2,7 @@
             <% if (user) { %>
             <a class="navbar-brand" href="/<%= user %>"><%= user %></a>
             <a class="navbar-brand" id="friend_requests" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content=""><span class="glyphicon glyphicon-user"></span></a>
+            <a href="/inbox" class="navbar-brand" id="inbox" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content=""><span class="glyphicon glyphicon-envelope"></span></a>
             <a class="navbar-brand" href="/settings">Settings</a>
             <a class="navbar-brand" href="/logout">Logout</a>
             <% } else { %>

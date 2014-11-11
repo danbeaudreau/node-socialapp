@@ -1,0 +1,18 @@
+.well {
+	overflow: auto;
+}
+
+.ui-tab {
+	border: solid #ddd;
+    border-width: 1px;
+    background: #fff;
+}
+
+#inbox-tab {
+	border-bottom: none;
+	border-top: none;
+}
+
+#drafts-tab {
+	border-bottom: none;
+}

@@ -5,8 +5,11 @@
       <base href="/">
       <title>Inbox</title>
       <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/inbox.css">
       <script src="libs/angular/angular.min.js"></script>
       <script src="libs/angular-route/angular-route.min.js"></script>
+      <script src="js/inbox.js"></script>
+      <script src="js/inboxController.js"></script>
    </head>
    <body ng-controller="inboxController">
       <div class="container">
@@ -16,11 +19,21 @@
             </div>
          </nav>
          <div class="well">
-            <div class="col-md-4">
-                  <!-- inbox/sent/drafts goes here  -->
+            <div class="col-md-4 sidebar">
+               <ul class="nav nav-sidebar">
+                  <li class="ui-tab" id="compose-tab" ng-click="changeTab(0)"><a href="">Compose</a></li>
+                  <li class="ui-tab" id="inbox-tab" ng-click="changeTab(1)"><a href="">Inbox</a></li>
+                  <li class="ui-tab" id="drafts-tab" ng-click="changeTab(2)"><a href="">Drafts</a></li>
+                  <li class="ui-tab" id="sent-tab" ng-click="changeTab(3)"><a href="">Sent</a></li>
+               </ul>
             </div>
             <div class="col-md-8">
-                  <!-- Content goes here -->
+                  <div class="ui-content" ng-show="selectedTab === 0"></div>
+                  <div class="ui-content" ng-show="selectedTab === 1">
+                     <li ng-repeat="message in privateMessages"></li>
+                  </div>
+                  <div class="ui-content" ng-show="selectedTab === 2"></div>
+                  <div class="ui-content" ng-show="selectedTab === 3"></div>
             </div>
          </div>
       </div>

@@ -1,7 +1,11 @@
 app.controller("inboxController", function ($scope, $http) {
-	$scope.privateMessages;
 	$scope.recipient;
 	$scope.currentMessage;
+	$scope.selectedTab = 1; //[todo] implement lazy loading here
+
+	$scope.privateMessages;
+	$scope.drafts;
+	$scope.sentMessages;
 
 	$scope.messageSentSuccess = false;
 	$scope.draftSavedSuccess = false;
@@ -10,7 +14,7 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.getPrivateMessages = function() {
 		$http.get('/getPrivateMessages').success(function(data, status, headers, config){
 			$scope.privateMessages = data;
-		};
+		});
 	};
 
 	$scope.sendPrivateMessage = function() {
@@ -25,9 +29,12 @@ app.controller("inboxController", function ($scope, $http) {
 		});
 	};
 
-	initializePage = function(){
-		$scope.getMessages();
-
+	$scope.changeTab = function(tab) { 
+		$scope.selectedTab = tab;
 	};
 
-}
+	initializePage = function() {
+		$scope.getMessages();
+	};
+
+});
