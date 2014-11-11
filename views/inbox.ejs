@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" ng-app="inbox">
+   <head>
+      <meta charset="UTF-8">
+      <base href="/">
+      <title>Inbox</title>
+      <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+      <script src="libs/angular/angular.min.js"></script>
+      <script src="libs/angular-route/angular-route.min.js"></script>
+   </head>
+   <body ng-controller="inboxController">
+      <div class="container">
+         <nav class="navbar navbar-inverse">
+            <div class="navbar-header">
+               <%- include navbar.ejs %>
+            </div>
+         </nav>
+         <div class="well">
+            <div class="col-md-4">
+                  <!-- inbox/sent/drafts goes here  -->
+            </div>
+            <div class="col-md-8">
+                  <!-- Content goes here -->
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

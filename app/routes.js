@@ -1,5 +1,6 @@
 var User            = require('./models/user');
 var Message         = require('./models/messages');
+var PrivateMessage  = require('./models/privatemessages');
 var Settings        = require('./models/Settings');
 var Friends         = require('./models/friends');
 var Request         = require('./models/request');
@@ -94,6 +95,57 @@ module.exports = function(router) {
     //              res.json(settings);
     //     });
     // }); 
+
+    router.get('/getPrivateMessages', function(req, res){
+      if(req.isAuthenticated()){
+        var privateMessageQuery = PrivateMessage.find({recipient: req.session.passport.user});
+        privateMessageQuery.exec(function(err, privateMessages){
+          if(err){
+            return;
+          }
+          res.json(privateMessages);
+        });
+      }
+    });
+
+    router.post('/deletePrivateMessage', function(req, res){
+      if(req.isAuthenticated()){
+        PrivateMessage.update({id: req.body.id}, {$set: {isDeleted: true}}, {upsert:false}, function(err, numAffected) {
+          if(numAffected === 0){
+            return;
+          }
+          if(err){
+            return;
+          }
+          res.send({
+               status: 'success'
+          });
+        });
+      }
+    });
+
+    router.post('/sendPrivateMessage', function(req, res) {
+      if(req.isAuthenticated()){
+        var privateMessageData = {
+          recipient: req.body.recipient,
+          author: req.session.passport.user,
+          message: req.body.message,
+          date: new Date(),
+          isDeleted: false,
+          isRepliedTo: false,
+          isDraft: false
+        };
+        var privateMessage = new PrivateMessage(privateMessageData);
+        privateMessage.save(function(error, privateMessage){
+          if(error) {
+            return;
+          }
+          res.send({
+            status: 'success'
+          });
+        });
+      }
+    });
 
     router.post('/makeFriendReqest', function(req, res) {
       if(req.isAuthenticated()){
