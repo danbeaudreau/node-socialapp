@@ -6,7 +6,8 @@ var privateMessageSchema = new Schema({
 	author: String,
 	message: String,
 	date: Date,
-	isDeleted: Boolean,
+	isDeletedByRecipient: Boolean,
+	isDeletedByAuthor: Boolean,
 	isRepliedTo: Boolean,
 	isDraft: Boolean
 });
