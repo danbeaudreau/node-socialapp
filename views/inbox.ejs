@@ -59,7 +59,7 @@
                         <div class="message-subject">Subject: {{draft.subject}}</div>
                         <div class="message-date">{{draft.date}}</div>
                         <div class="message-content">{{draft.message}}</div>
-                        <button type="button" ng-click="edit(draft.recipient, draft.message)">Edit</button>
+                        <button type="button" ng-click="edit(draft.recipient, draft.subject, draft.message)">Edit</button>
                         <button type="button" ng-click="deleteDraft(draft._id)">Delete</button>
                      </li>
                      <li ng-if="drafts.length === 0"> 

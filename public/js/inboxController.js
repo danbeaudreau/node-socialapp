@@ -73,10 +73,11 @@ app.controller("inboxController", function ($scope, $http) {
 		$scope.selectedTab = tab;
 	};
 
-	$scope.edit = function(recipient, message) {
+	$scope.edit = function(recipient, subject, message) {
 		warnIfMessageInProgress();
 
 		$scope.recipient = recipient;
+		$scope.subject = subject;
 		$scope.currentMessage = message;
 		$scope.selectedTab = 0;
 	};
