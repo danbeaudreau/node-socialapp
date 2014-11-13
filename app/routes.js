@@ -100,21 +100,21 @@ module.exports = function(router) {
     //     });
     // }); 
 
-    router.get('/getDrafts', function(req, res) {
-      if(req.isAuthenticated()) {
-        var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDraft: true});
-        draftQuery.exec(function(err, drafts) {
-          if(err){
-            return;
-          }
-          res.json(drafts);
-        });
-      }
-    });
+    // router.get('/getDrafts', function(req, res) {
+    //   if(req.isAuthenticated()) {
+    //     var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDraft: true});
+    //     draftQuery.exec(function(err, drafts) {
+    //       if(err){
+    //         return;
+    //       }
+    //       res.json(drafts);
+    //     });
+    //   }
+    // });
 
     router.get('/getSentMessages', function(req, res) {
       if(req.isAuthenticated()) {
-        var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDraft: false, isDeletedByAuthor:false});
+        var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDeletedByAuthor: false});
         draftQuery.exec(function(err, drafts) {
           if(err){
             return;
@@ -126,7 +126,7 @@ module.exports = function(router) {
 
     router.get('/getPrivateMessages', function(req, res){
       if(req.isAuthenticated()){
-        var privateMessageQuery = PrivateMessage.find({recipient: req.session.passport.user, isDraft: false, isDeletedByRecipient: false});
+        var privateMessageQuery = PrivateMessage.find({recipient: req.session.passport.user, isDeletedByRecipient: false});
         privateMessageQuery.exec(function(err, privateMessages){
           if(err){
             return;
@@ -161,21 +161,31 @@ module.exports = function(router) {
       }
     });
 
-    // router.post('/deleteRecievedPrivateMessage', function(req, res){
-    //   if(req.isAuthenticated()){
-    //     PrivateMessage.update({id: req.body.id}, {$set: {isDeletedByRecipient: true}}, {upsert:false}, function(err, numAffected) {
-    //       if(numAffected === 0){
-    //         return;
-    //       }
-    //       if(err){
-    //         return;
-    //       }
-    //       res.send({
-    //            status: 'success'
-    //       });
-    //     });
-    //   }
-    // });
+    router.post('/deleteRecievedPrivateMessage', function(req, res){
+      if(req.isAuthenticated()){
+        var messageQuery = PrivateMessage.find({recipient: req.session.passport.user, _id: req.body.id});
+        messageQuery.exec(function(err, privateMessage){
+         if(err){
+          return;
+         }
+         if(!privateMessage){
+          return;
+         }
+         PrivateMessage.update({_id: req.body.id}, {$set: {isDeletedByRecipient: true}}, {upsert:false}, function(err, numAffected) {
+          if(numAffected === 0){
+            return;
+          }
+          if(err){
+            return;
+          }
+          res.send({
+               status: 'success'
+          });
+        });
+       });
+      }
+    });
+
 
     router.post('/sendPrivateMessage', function(req, res) {
       if(req.isAuthenticated()){
@@ -187,7 +197,6 @@ module.exports = function(router) {
           isDeletedByAuthor: false,
           isDeletedByRecipient: false,
           isRepliedTo: false,
-          isDraft: req.body.isDraft
         };
         var privateMessage = new PrivateMessage(privateMessageData);
         privateMessage.save(function(error, privateMessage){

@@ -31,19 +31,27 @@ app.controller("inboxController", function ($scope, $http) {
 	}
 
 	$scope.sendPrivateMessage = function() {
-		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage, isDraft: false}).success(function(data, status, headers, config){
+		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.messageSentSuccess = true;
+			window.reload();
 		});
 	};
 
 	$scope.saveDraft = function() {
-		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage, isDraft: true}).success(function(data, status, headers, config){
+		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.draftSavedSuccess = true;
+			window.reload();
 		});
 	}
 
 	$scope.deleteSentMessage = function(id) {
 		$http.post('/deleteSentPrivateMessage', {id: id}).success(function(data, status, headers, config){ //consider using a delete?
+			$scope.messageDeleteSuccess = true;
+		});
+	}
+
+	$scope.deleteRecievedMessage = function(id){
+		$http.post('/deleteRecievedPrivateMessage', {id: id}).success(function(data, status, headers, config){
 			$scope.messageDeleteSuccess = true;
 		});
 	}
