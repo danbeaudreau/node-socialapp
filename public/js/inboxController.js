@@ -1,16 +1,21 @@
 app.controller("inboxController", function ($scope, $http) {
-	$scope.recipient;
-	$scope.currentMessage;
+	//local data
+	$scope.recipient = "";
+	$scope.currentMessage = "";
 	$scope.selectedTab = 1; //[todo] implement lazy loading here?
 
 	$scope.privateMessages;
 	$scope.drafts;
 	$scope.sentMessages;
 
+	//bootstrap success alerts
 	$scope.messageSentSuccess = false;
 	$scope.draftSavedSuccess = false;
 	$scope.messageDeleteSuccess = false;
 	$scope.draftDeleteSuccess = false;
+
+	//bootstrap warnings
+	$scope.editDraftWarning = false;
 
 
 	$scope.getPrivateMessages = function() {
@@ -34,6 +39,8 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.sendPrivateMessage = function() {
 		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.messageSentSuccess = true;
+			$scope.recipient = "";
+			$scope.currentMessage = "";
 		});
 	};
 
@@ -64,6 +71,28 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.changeTab = function(tab) { 
 		$scope.selectedTab = tab;
 	};
+
+	$scope.edit = function(recipient, message) {
+		warnIfMessageInProgress();
+
+		$scope.recipient = recipient;
+		$scope.currentMessage = message;
+		$scope.selectedTab = 0;
+	};
+
+	$scope.reply = function(recipient) {
+		warnIfMessageInProgress();
+
+		$scope.recipient = recipient;
+		$scope.selectedTab = 0;
+	}
+
+	warnIfMessageInProgress = function() {
+		if($scope.recipient !== "" || $scope.currentMessage !== "") { //improve later
+			$scope.editDraftWarning = true;
+			return;
+		} 
+	}
 
 	initializePage = function() {
 		$scope.getPrivateMessages();
