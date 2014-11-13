@@ -218,6 +218,7 @@ module.exports = function(router) {
         var draftData = {
           recipient: req.body.recipient,
           author: req.session.passport.user,
+          subject: req.body.subject,
           message: req.body.message,
           date: new Date(),
           isDeleted: false,
@@ -241,6 +242,7 @@ module.exports = function(router) {
         var privateMessageData = {
           recipient: req.body.recipient,
           author: req.session.passport.user,
+          subject: req.body.subject,
           message: req.body.message,
           date: new Date(),
           isDeletedByAuthor: false,

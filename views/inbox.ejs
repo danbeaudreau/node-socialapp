@@ -32,6 +32,8 @@
                      <form>
                         <p>To:</p>
                         <input ng-model="recipient" type="text"></input>
+                        <p>Subject: </p>
+                        <input ng-model="subject" type="text"></input>
                         <p>Message:</p>
                         <textarea ng-model="currentMessage" rows="4" cols="70" placeholder="Enter your message here." required></textarea>
                         <input ng-click="sendPrivateMessage()" type="submit" value="Submit"></input>
@@ -41,6 +43,7 @@
                   <div class="ui-content" ng-show="selectedTab === 1">
                      <li ng-repeat="message in privateMessages">
                         <div class="message-author">By: {{message.author}}</div>
+                        <div class="message-subject">Subject: {{message.subject}}</div>
                         <div class="message-date">Date: {{message.date}}</div>
                         <div class="message-content">Content: {{message.message}}</div>
                         <button type="button" ng-click="reply(message.author)">Reply</button>
@@ -53,6 +56,7 @@
                   <div class="ui-content" ng-show="selectedTab === 2">
                      <li ng-repeat="draft in drafts">
                         <div class="message-recipient">To: {{draft.recipient}}</div>
+                        <div class="message-subject">Subject: {{draft.subject}}</div>
                         <div class="message-date">{{draft.date}}</div>
                         <div class="message-content">{{draft.message}}</div>
                         <button type="button" ng-click="edit(draft.recipient, draft.message)">Edit</button>
@@ -65,6 +69,7 @@
                   <div class="ui-content" ng-show="selectedTab === 3">
                      <li ng-repeat="sentMessage in sentMessages">
                         <div class="message-recipient">To: {{sentMessage.recipient}}</div>
+                        <div class="message-subject">Subject: {{sentMessage.subject}}</div>
                         <div class="message-date">{{sentMessage.date}}</div>
                         <div class="message-content">{{sentMessage.message}}</div>
                         <button type="button" ng-click="deleteSentMessage(sentMessage._id)">Delete</button>
