@@ -1,6 +1,7 @@
 var User            = require('./models/user');
 var Message         = require('./models/messages');
 var PrivateMessage  = require('./models/privatemessages');
+var Draft           = require('./models/drafts');
 var Settings        = require('./models/Settings');
 var Friends         = require('./models/friends');
 var Request         = require('./models/request');
@@ -100,26 +101,52 @@ module.exports = function(router) {
     //     });
     // }); 
 
-    // router.get('/getDrafts', function(req, res) {
-    //   if(req.isAuthenticated()) {
-    //     var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDraft: true});
-    //     draftQuery.exec(function(err, drafts) {
-    //       if(err){
-    //         return;
-    //       }
-    //       res.json(drafts);
-    //     });
-    //   }
-    // });
-
-    router.get('/getSentMessages', function(req, res) {
+    router.get('/getDrafts', function(req, res) {
       if(req.isAuthenticated()) {
-        var draftQuery = PrivateMessage.find({author: req.session.passport.user, isDeletedByAuthor: false});
+        var draftQuery = Draft.find({author: req.session.passport.user, isDeleted: false});
         draftQuery.exec(function(err, drafts) {
           if(err){
             return;
           }
           res.json(drafts);
+        });
+      }
+    });
+
+    router.post('/deleteDraft', function(req, res) {
+      if(req.isAuthenticated()) {
+        var draftQuery = Draft.find({author: req.session.passport.user, _id: req.body.id});
+        draftQuery.exec(function(err, draft){
+          if(err){
+            return;
+          }
+          if(!draft){
+            return;
+          }
+          Draft.update({_id: req.body.id}, {$set: {isDeleted: true}}, {upsert:false}, function(err, numAffected) {
+            if(numAffected === 0){
+              return;
+            }
+            if(err){
+              return;
+            }
+            res.send({
+                 status: 'success'
+            });
+          });          
+
+        });
+      }
+    });
+
+    router.get('/getSentMessages', function(req, res) {
+      if(req.isAuthenticated()) {
+        var messageQuery = PrivateMessage.find({author: req.session.passport.user, isDeletedByAuthor: false});
+        messageQuery.exec(function(err, messages) {
+          if(err){
+            return;
+          }
+          res.json(messages);
         });
       }
     });
@@ -183,6 +210,28 @@ module.exports = function(router) {
           });
         });
        });
+      }
+    });
+
+    router.post('/saveDraft', function(req, res) {
+      if(req.isAuthenticated()){
+        var draftData = {
+          recipient: req.body.recipient,
+          author: req.session.passport.user,
+          message: req.body.message,
+          date: new Date(),
+          isDeleted: false,
+          isRepliedTo: false
+        };
+        var draft = new Draft(draftData);
+        draft.save(function(error, draft){
+          if(error) {
+            return;
+          }
+          res.send({
+            status: 'success'
+          });
+        });
       }
     });
 

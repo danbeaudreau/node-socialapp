@@ -10,6 +10,7 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.messageSentSuccess = false;
 	$scope.draftSavedSuccess = false;
 	$scope.messageDeleteSuccess = false;
+	$scope.draftDeleteSuccess = false;
 
 
 	$scope.getPrivateMessages = function() {
@@ -33,14 +34,12 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.sendPrivateMessage = function() {
 		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.messageSentSuccess = true;
-			window.reload();
 		});
 	};
 
 	$scope.saveDraft = function() {
-		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
+		$http.post('/saveDraft', {recipient: $scope.recipient, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.draftSavedSuccess = true;
-			window.reload();
 		});
 	}
 
@@ -56,6 +55,11 @@ app.controller("inboxController", function ($scope, $http) {
 		});
 	}
 
+	$scope.deleteDraft = function(id) {
+		$http.post('/deleteDraft', {id: id}).success(function(data, status, headers, config){
+			$scope.draftDeleteSuccess = true; 
+		});
+	}
 
 	$scope.changeTab = function(tab) { 
 		$scope.selectedTab = tab;

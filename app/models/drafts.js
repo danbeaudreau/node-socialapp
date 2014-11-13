@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var privateMessageSchema = new Schema({
+var draftSchema = new Schema({
 	recipient : String,
 	author: String,
 	message: String,
 	date: Date,
-	isDeleted, Boolean
+	isDeleted: Boolean
 });
 
-module.exports = mongoose.model('PrivateMessage', privateMessageSchema);
+module.exports = mongoose.model('Draft', draftSchema);

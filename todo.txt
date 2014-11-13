@@ -3,3 +3,4 @@ private messaging system
 overflow pages for friends and feed/comments
 more validation for bad user input
 image gallery
+refactor routes
