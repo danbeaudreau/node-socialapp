@@ -6,6 +6,7 @@
 	border: solid #ddd;
     border-width: 1px;
     background: #fff;
+    overflow: auto;
 }
 
 #inbox-tab {
@@ -27,6 +28,21 @@ ul,li {
     margin:0;
     padding:0;
  }
+
+.searchbar {
+	float: left !important;
+
+}
+
+.message-group {
+ 	float: left !important;
+ 	clear: left;
+ 	display:inline-block;
+ }
+
+.empty-message {
+	clear:both;
+}
 
  .field-desc {
  	display: inline-block;
