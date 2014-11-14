@@ -1,5 +1,8 @@
-app.controller("inboxController", function ($scope, $http) {
-	//local data
+app.controller("inboxController", function ($scope, $http, $filter) {
+	//user data
+	$scope.user = window.user;
+
+	//message data
 	$scope.recipient = "";
 	$scope.currentMessage = "";
 	$scope.subject = "";
@@ -8,6 +11,7 @@ app.controller("inboxController", function ($scope, $http) {
 	$scope.privateMessages;
 	$scope.drafts;
 	$scope.sentMessages;
+	$scope.contacts;
 
 	//bootstrap success alerts
 	$scope.messageSentSuccess = false;
@@ -37,35 +41,47 @@ app.controller("inboxController", function ($scope, $http) {
 		});
 	}
 
+	$scope.getContacts = function() {
+		$http.get('/getFriends?user=' + $scope.user).success(function(data, status, headers, config){
+			$scope.contacts = data;
+		});
+
+	}
+
 	$scope.sendPrivateMessage = function() {
 		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, subject: $scope.subject, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.messageSentSuccess = true;
 			$scope.recipient = "";
 			$scope.currentMessage = "";
+			$scope.getSentMessages();
 		});
 	};
 
 	$scope.saveDraft = function() {
 		$http.post('/saveDraft', {recipient: $scope.recipient, subject: $scope.subject, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.draftSavedSuccess = true;
+			$scope.getDrafts();
 		});
 	}
 
 	$scope.deleteSentMessage = function(id) {
 		$http.post('/deleteSentPrivateMessage', {id: id}).success(function(data, status, headers, config){ //consider using a delete?
 			$scope.messageDeleteSuccess = true;
+			$scope.getSentMessages();
 		});
 	}
 
 	$scope.deleteRecievedMessage = function(id){
 		$http.post('/deleteRecievedPrivateMessage', {id: id}).success(function(data, status, headers, config){
 			$scope.messageDeleteSuccess = true;
+			$scope.getPrivateMessages();
 		});
 	}
 
 	$scope.deleteDraft = function(id) {
 		$http.post('/deleteDraft', {id: id}).success(function(data, status, headers, config){
-			$scope.draftDeleteSuccess = true; 
+			$scope.draftDeleteSuccess = true;
+			$scope.getDrafts(); 
 		});
 	}
 
@@ -100,6 +116,7 @@ app.controller("inboxController", function ($scope, $http) {
 		$scope.getPrivateMessages();
 		$scope.getDrafts();
 		$scope.getSentMessages();
+		$scope.getContacts();
 	};
 
 	initializePage();

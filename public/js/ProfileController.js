@@ -22,7 +22,7 @@ app.controller("profileController", function ($scope, $http) {
 	$scope.postMessage = function() {
 		$http.post('/postMessage', {message: $scope.message, username: $scope.profileName}).success(function(data, status, headers, config){
 			$scope.messagePostSuccess = true;
-			location.reload();
+			$scope.getMessages();
 		});
 	};
 

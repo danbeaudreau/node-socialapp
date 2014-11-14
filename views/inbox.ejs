@@ -10,6 +10,9 @@
       <script src="libs/angular-route/angular-route.min.js"></script>
       <script src="js/inbox.js"></script>
       <script src="js/inboxController.js"></script>
+      <script type="text/javascript">
+         window.user = "<%= user %>";
+      </script>
    </head>
    <body ng-controller="inboxController">
       <div class="container">
@@ -25,23 +28,26 @@
                   <li class="ui-tab" id="inbox-tab" ng-click="changeTab(1)"><a href="">Inbox</a></li>
                   <li class="ui-tab" id="drafts-tab" ng-click="changeTab(2)"><a href="">Drafts</a></li>
                   <li class="ui-tab" id="sent-tab" ng-click="changeTab(3)"><a href="">Sent</a></li>
+                  <li class="ui-tab" id="address-book-tab" ng-click="changeTab(4)"><a href="">Address Book</a></li>
                </ul>
             </div>
             <div class="col-md-8">
                   <div class="ui-content" ng-show="selectedTab === 0">
                      <form>
-                        <p>To:</p>
-                        <input ng-model="recipient" type="text"></input>
-                        <p>Subject: </p>
+                        <div class="field-desc">To:</div>
+                        <input ng-model="recipient" type="text" placeholder=""></input>
+                        <div class="field-desc">Subject: </div>
                         <input ng-model="subject" type="text"></input>
-                        <p>Message:</p>
+                        <p class="field-desc" id="message-desc">Message:</p>
                         <textarea ng-model="currentMessage" rows="4" cols="70" placeholder="Enter your message here." required></textarea>
                         <input ng-click="sendPrivateMessage()" type="submit" value="Submit"></input>
                         <input ng-click="saveDraft()" type="submit" value="Save Draft"></input>
                      </form>
                   </div>
                   <div class="ui-content" ng-show="selectedTab === 1">
-                     <li ng-repeat="message in privateMessages">
+                     <input class="searchbar" ng-if="privateMessages.length !== 0" placeholder="Search"></input>
+                     <button tyoe="button" ng-click="getPrivateMessages()">Refresh</button>
+                     <li ng-repeat="message in privateMessages | orderBy: message.date">
                         <div class="message-author">By: {{message.author}}</div>
                         <div class="message-subject">Subject: {{message.subject}}</div>
                         <div class="message-date">Date: {{message.date}}</div>
@@ -54,7 +60,8 @@
                      </li>
                   </div>
                   <div class="ui-content" ng-show="selectedTab === 2">
-                     <li ng-repeat="draft in drafts">
+                     <input class="searchbar" ng-if="drafts.length !== 0" placeholder="Search"></input>
+                     <li ng-repeat="draft in drafts | orderBy: draft.date">
                         <div class="message-recipient">To: {{draft.recipient}}</div>
                         <div class="message-subject">Subject: {{draft.subject}}</div>
                         <div class="message-date">{{draft.date}}</div>
@@ -67,15 +74,23 @@
                      </li>
                   </div> 
                   <div class="ui-content" ng-show="selectedTab === 3">
-                     <li ng-repeat="sentMessage in sentMessages">
+                     <input class="searchbar" ng-if="sentMessages.length !== 0" placeholder="Search"></input>
+                     <li ng-repeat="sentMessage in sentMessages | orderBy: sentMessage.date">
                         <div class="message-recipient">To: {{sentMessage.recipient}}</div>
                         <div class="message-subject">Subject: {{sentMessage.subject}}</div>
-                        <div class="message-date">{{sentMessage.date}}</div>
+                        <div class="message-date">{{sentMessage.date.toString('MM-dd-yyyy')}}</div>
                         <div class="message-content">{{sentMessage.message}}</div>
                         <button type="button" ng-click="deleteSentMessage(sentMessage._id)">Delete</button>
                      </li>
                      <li ng-if="sentMessages.length === 0"> 
                         <strong>You do not have any sent messages.</strong> 
+                     </li>
+                  </div>
+                  <div class="ui-content" ng-show="selectedTab === 4">
+                     <li ng-repeat="contact in contacts">
+                     </li>
+                     <li ng-if="contacts.length === 0">
+                        <strong>You do not have any contacts.</strong> 
                      </li>
                   </div>
             </div>

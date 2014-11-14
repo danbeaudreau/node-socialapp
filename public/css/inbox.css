@@ -17,9 +17,21 @@
 	border-bottom: none;
 }
 
+#address-book-tab{
+	border-top: none;
+}
+
 ul,li { 
 	list-style-type: none;
     list-style-position:inside;
     margin:0;
     padding:0;
+ }
+
+ .field-desc {
+ 	display: inline-block;
+ }
+
+ #message-desc {
+ 	clear:both !important;
  }
