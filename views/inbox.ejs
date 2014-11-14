@@ -32,7 +32,7 @@
                </ul>
             </div>
             <div class="col-md-8">
-                  <div class="ui-content" ng-show="selectedTab === 0">
+                  <div class="ui-content" ng-show="selectedTab === 0 && !isMessageView">
                      <form>
                         <div class="field-desc">To:</div>
                         <input ng-model="recipient" type="text" placeholder=""></input>
@@ -44,54 +44,69 @@
                         <input ng-click="saveDraft()" type="submit" value="Save Draft"></input>
                      </form>
                   </div>
-                  <div class="ui-content" ng-show="selectedTab === 1">
-                     <input class="searchbar" ng-if="privateMessages.length !== 0" placeholder="Search"></input>
-                     <button tyoe="button" ng-click="getPrivateMessages()">Refresh</button>
-                     <li ng-repeat="message in privateMessages | orderBy: message.date">
-                        <div class="message-author">By: {{message.author}}</div>
+                  <div class="ui-content" ng-show="selectedTab === 1 && !isMessageView">
+                     <input ng-model="searchText" type="text" class="searchbar" placeholder="Search"></input>
+                     <button type="button" ng-click="getPrivateMessages()">Refresh</button>
+                     <a ng-repeat="message in privateMessages | orderBy: message.date | filter:searchText" ng-click="enterMessageView('true', message, 'inbox')">
+                        <div class="message-author">From: {{message.author}}</div>
                         <div class="message-subject">Subject: {{message.subject}}</div>
-                        <div class="message-date">Date: {{message.date}}</div>
-                        <div class="message-content">Content: {{message.message}}</div>
-                        <button type="button" ng-click="reply(message.author)">Reply</button>
-                        <button type="button" ng-click="deleteRecievedMessage(message._id)">Delete</button>
-                     </li>
+                        <div class="message-date">Date: {{message.date | date:'medium'}}</div>
+                        <div class="message-content" ng-hide="true">Content: {{message.message}}</div>
+                     </a>
                      <li ng-if="privateMessages.length === 0"> 
                         <strong>Your inbox is empty.</strong> 
                      </li>
                   </div>
-                  <div class="ui-content" ng-show="selectedTab === 2">
-                     <input class="searchbar" ng-if="drafts.length !== 0" placeholder="Search"></input>
-                     <li ng-repeat="draft in drafts | orderBy: draft.date">
+                  <div class="ui-content" ng-show="selectedTab === 2 && !isMessageView">
+                     <input ng-model="searchText" type="text" class="searchbar" placeholder="Search"></input>
+                     <a ng-repeat="draft in drafts | filter:searchText | orderBy: draft.date" ng-click="enterMessageView('false', draft, 'draft')">
                         <div class="message-recipient">To: {{draft.recipient}}</div>
                         <div class="message-subject">Subject: {{draft.subject}}</div>
-                        <div class="message-date">{{draft.date}}</div>
-                        <div class="message-content">{{draft.message}}</div>
-                        <button type="button" ng-click="edit(draft.recipient, draft.subject, draft.message)">Edit</button>
-                        <button type="button" ng-click="deleteDraft(draft._id)">Delete</button>
-                     </li>
+                        <div class="message-date">Date: {{draft.date | date:'medium'}}</div>
+                        <div class="message-content" ng-hide="true">Content: {{draft.message}}</div>
+                     </a>
                      <li ng-if="drafts.length === 0"> 
                         <strong>You do not have any drafts.</strong> 
                      </li>
                   </div> 
-                  <div class="ui-content" ng-show="selectedTab === 3">
-                     <input class="searchbar" ng-if="sentMessages.length !== 0" placeholder="Search"></input>
-                     <li ng-repeat="sentMessage in sentMessages | orderBy: sentMessage.date">
+                  <div class="ui-content" ng-show="selectedTab === 3 && !isMessageView">
+                     <input ng-model="searchText" type="text" class="searchbar" placeholder="Search"></input>
+                     <a ng-repeat="sentMessage in sentMessages | orderBy: sentMessage.date | filter:searchText" ng-click="enterMessageView('false', sentMessage, 'sent')">
                         <div class="message-recipient">To: {{sentMessage.recipient}}</div>
                         <div class="message-subject">Subject: {{sentMessage.subject}}</div>
-                        <div class="message-date">{{sentMessage.date.toString('MM-dd-yyyy')}}</div>
-                        <div class="message-content">{{sentMessage.message}}</div>
-                        <button type="button" ng-click="deleteSentMessage(sentMessage._id)">Delete</button>
-                     </li>
+                        <div class="message-date">Date: {{sentMessage.date | date:'medium'}}</div>
+                        <div class="message-content" ng-hide="true">Content: {{sentMessage.message}}</div>
+                     </a>
                      <li ng-if="sentMessages.length === 0"> 
                         <strong>You do not have any sent messages.</strong> 
                      </li>
                   </div>
-                  <div class="ui-content" ng-show="selectedTab === 4">
+                  <div class="ui-content" ng-show="selectedTab === 4 && !isMessageView">
                      <li ng-repeat="contact in contacts">
+                        <div class="contact">{{contact.friend}}</div>
+                        <button type="button" ng-click="reply(contact.friend)">Send Message</button>
                      </li>
                      <li ng-if="contacts.length === 0">
                         <strong>You do not have any contacts.</strong> 
                      </li>
+                  </div>
+                  <div class="ui-content" ng-show="isMessageView"> 
+                     <div class="message-recipient" ng-show="messageViewIsFrom">From: {{messageViewMessage.author}}</div>
+                     <div class="message-recipient" ng-hide="messageViewIsFrom">To: {{messageViewMessage.recipient}}</div>
+                     <div class="message-subject">Subject: {{messageViewMessage.subject}}</div>
+                     <div class="message-date">Date: {{messageViewMessage.date | date:'medium' }}</div>
+                     <div class="message-content">Content: {{messageViewMessage.message}}</div>
+                     <div ng-show="messageViewMessageType === 'inbox'">
+                        <button type="button" ng-click="reply(messageViewMessage.author)">Reply</button>
+                        <button type="button" ng-click="deleteRecievedMessage(messageViewMessage._id)">Delete</button>
+                     </div>
+                     <div ng-show="messageViewMessageType === 'draft'">
+                        <button type="button" ng-click="edit(messageViewMessage.recipient, messageViewMessage.subject, messageViewMessage.message)">Edit</button>
+                        <button type="button" ng-click="deleteDraft(messageViewMessage._id)">Delete</button>
+                     </div>
+                     <div ng-show="messageViewMessageType === 'sent'">
+                        <button type="button" ng-click="deleteSentMessage(messageViewMessage._id)">Delete</button>
+                     </div>
                   </div>
             </div>
          </div>

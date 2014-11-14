@@ -6,8 +6,17 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 	$scope.recipient = "";
 	$scope.currentMessage = "";
 	$scope.subject = "";
-	$scope.selectedTab = 1; //[todo] implement lazy loading here?
 
+	$scope.messageViewIsFrom;
+	$scope.messageViewMessage;
+	$scope.messageViewMessageType;
+	$scope.isMessageView = false;
+
+	//utilities
+	$scope.selectedTab = 1; 
+	$scope.searchText;
+
+	//general data
 	$scope.privateMessages;
 	$scope.drafts;
 	$scope.sentMessages;
@@ -51,7 +60,11 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 	$scope.sendPrivateMessage = function() {
 		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, subject: $scope.subject, message: $scope.currentMessage}).success(function(data, status, headers, config){
 			$scope.messageSentSuccess = true;
+			if($scope.user === $scope.recipient){
+				$scope.getPrivateMessages();
+			}
 			$scope.recipient = "";
+			$scope.subject = "";
 			$scope.currentMessage = "";
 			$scope.getSentMessages();
 		});
@@ -69,6 +82,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 			$scope.messageDeleteSuccess = true;
 			$scope.getSentMessages();
 		});
+		$scope.isMessageView = false;
 	}
 
 	$scope.deleteRecievedMessage = function(id){
@@ -76,6 +90,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 			$scope.messageDeleteSuccess = true;
 			$scope.getPrivateMessages();
 		});
+		$scope.isMessageView = false;
 	}
 
 	$scope.deleteDraft = function(id) {
@@ -83,13 +98,17 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 			$scope.draftDeleteSuccess = true;
 			$scope.getDrafts(); 
 		});
+		$scope.isMessageView = false;
 	}
 
 	$scope.changeTab = function(tab) { 
+		$scope.isMessageView = false;
+		$scope.searchText = "";
 		$scope.selectedTab = tab;
 	};
 
 	$scope.edit = function(recipient, subject, message) {
+		$scope.isMessageView = false;
 		warnIfMessageInProgress();
 
 		$scope.recipient = recipient;
@@ -99,10 +118,18 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 	};
 
 	$scope.reply = function(recipient) {
+		$scope.isMessageView = false;
 		warnIfMessageInProgress();
 
 		$scope.recipient = recipient;
 		$scope.selectedTab = 0;
+	}
+
+	$scope.enterMessageView = function(ToOrFrom, message, messageViewMessageType) {
+		$scope.messageViewToOrFrom = ToOrFrom; 
+		$scope.messageViewMessage = message;
+		$scope.messageViewMessageType = messageViewMessageType;
+		$scope.isMessageView = true;
 	}
 
 	warnIfMessageInProgress = function() {
