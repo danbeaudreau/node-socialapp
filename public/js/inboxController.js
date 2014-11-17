@@ -125,8 +125,8 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		$scope.selectedTab = 0;
 	}
 
-	$scope.enterMessageView = function(ToOrFrom, message, messageViewMessageType) {
-		$scope.messageViewToOrFrom = ToOrFrom; 
+	$scope.enterMessageView = function(isFrom, message, messageViewMessageType) {
+		$scope.messageViewIsFrom = isFrom; 
 		$scope.messageViewMessage = message;
 		$scope.messageViewMessageType = messageViewMessageType;
 		$scope.isMessageView = true;

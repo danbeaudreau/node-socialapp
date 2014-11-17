@@ -29,25 +29,72 @@ ul,li {
     padding:0;
  }
 
+hr {
+	width:100%;
+}
 .searchbar {
 	float: left !important;
+	margin-left: 10px;
+	margin-top: 10px;
 
 }
+
+.glyphicon-container {
+	margin-left: 5px;
+	margin-top: 10px;
+
+ }
 
 .message-group {
  	float: left !important;
  	clear: left;
  	display:inline-block;
+ 	margin-left: 5px;
+ }
+
+ .message-group:last-of-type {
+ 	margin-bottom: 10px;
+ }
+
+ .contact {
+ 	margin-left: 4px;
+ }
+
+ .message-group:hover {
+    color: #FF00FF;
+    cursor: pointer;
  }
 
 .empty-message {
 	clear:both;
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.message-content {
+	max-width: 70%;
+	margin-left: 15px;
+	margin-top: 8px;
 }
 
  .field-desc {
  	display: inline-block;
+ 	margin-left: 8px;
+ 	margin-top: 10px;
  }
 
- #message-desc {
- 	clear:both !important;
+ button.field-desc {
+ 	margin-bottom: 5px;
+ }
+
+ textarea {
+ 	width:97%;
+ 	min-height: 100px;
+ }
+
+
+ span.glyphicon-refresh {
+	font-size: 1em;
+	padding: 1px;
  }
