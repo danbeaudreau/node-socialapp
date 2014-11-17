@@ -1,10 +1,16 @@
 app.controller("userRegistrationController", function ($scope, $http) {
 	$scope.username;
 	$scope.password;
+	$scope.passwordConfirmation;
 	$scope.success = false;
-	$scope.danger = false;
+	$scope.passwordWarning = false;
 
 	$scope.createUser = function(){
+		if($scope.password !== $scope.passwordConfirmation) {
+			$scope.passwordWarning = true;
+			return;
+		}
+
 		$http.post('/api/create', {username: $scope.username.toLowerCase(), password: $scope.password}).success(function(data){
    			$scope.success = true;
 		});
