@@ -80,9 +80,7 @@ module.exports = function(router) {
         return;
       }
       if(!settings){
-        res.send({
-           status: 'error'
-        });
+        res.render('error');
         return;
       }
       profileImageURL = settings.profileImageURL;
