@@ -27,12 +27,15 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		messageSentSuccess: false,
 		draftSavedSuccess: false,
 		messageDeleteSuccess: false,
-		draftDeleteSuccess: false
+		draftDeleteSuccess: false,
+		editDraftWarning: false
 	}
 
-	//bootstrap warnings
-	$scope.editDraftWarning = false;
-
+	$scope.pendingMessage = { //need to find a better way than this
+		recipient : "",
+		subject : "",
+		message : ""
+	}
 
 	$scope.getPrivateMessages = function() {
 		$http.get('/getPrivateMessages').success(function(data, status, headers, config){
@@ -112,12 +115,14 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 
 	$scope.edit = function(recipient, subject, message) {
 		$scope.isMessageView = false;
-		warnIfMessageInProgress();
-
-		$scope.recipient = recipient;
-		$scope.subject = subject;
-		$scope.currentMessage = message;
-		$scope.selectedTab = 0;
+		var warned = warnIfMessageInProgress();
+		if(warned) {
+			$scope.pendingMessage.recipient = recipient;
+			$scope.pendingMessage.subject = subject;
+			$scope.pendingMessage.message = message;
+			return;
+		}
+		$scope.populateMessageFields(recipient, subject, message);
 	};
 
 	$scope.reply = function(recipient) {
@@ -125,7 +130,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		warnIfMessageInProgress();
 
 		$scope.recipient = recipient;
-		$scope.selectedTab = 0;
+		$scope.changeTab(0);
 	}
 
 	$scope.enterMessageView = function(isFrom, message, messageViewMessageType) {
@@ -135,11 +140,19 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		$scope.isMessageView = true;
 	}
 
+	$scope.populateMessageFields = function(recipient, subject, message) {
+		$scope.recipient = recipient;
+		$scope.subject = subject;
+		$scope.currentMessage = message;
+		$scope.changeTab(0);
+	}
+
 	warnIfMessageInProgress = function() {
-		if($scope.recipient !== "" || $scope.currentMessage !== "" || $scope.subject !== "") { //improve later
-			$scope.editDraftWarning = true;
-			return;
+		if($scope.recipient !== "" || $scope.currentMessage !== "" || $scope.subject !== "") {
+			$scope.alerts.editDraftWarning = true;
+			return true;
 		} 
+		return false;
 	}
 
 	disableAlerts = function() {
