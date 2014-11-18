@@ -32,7 +32,11 @@ mongoose.connect(db.url);
 
 
 var router = express.Router();
-require('./app/routes')(router);
+require('./app/routes/friends.routes')(router);
+require('./app/routes/general.routes')(router);
+require('./app/routes/messages.routes')(router);
+require('./app/routes/privatemessages.routes')(router);
+require('./app/routes/users.routes')(router);
 app.use('/', router);
 
 
