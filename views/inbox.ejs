@@ -25,6 +25,11 @@
                <%- include navbar.ejs %>
             </div>
          </nav>
+         <div class="alert alert-success" ng-show="alerts.messageSentSuccess">Message sent successfully.</div>
+         <div class="alert alert-success" ng-show="alerts.draftSavedSuccess">Draft saved successfully.</div>
+         <div class="alert alert-success" ng-show="alerts.messageDeleteSuccess">Message deleted successfully.</div>
+         <div class="alert alert-success" ng-show="alerts.draftDeleteSuccess">Draft deleted successfully.</div>
+         <div class="alert alert-warning" ng-show="alerts.editDraftWarning">Warning, you have a message in progress. Are you sure you want to overwrite it? If so, click <a ng-click="populateMessageFields(pendingMessage.recipient, pendingMessage.subject, pendingMessage.message)">here</a>.</div>
          <div class="well">
             <div class="col-md-3 sidebar">
                <ul class="nav nav-sidebar" style="background:#6699FF">

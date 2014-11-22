@@ -23,14 +23,19 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 	$scope.contacts;
 
 	//bootstrap success alerts
-	$scope.messageSentSuccess = false;
-	$scope.draftSavedSuccess = false;
-	$scope.messageDeleteSuccess = false;
-	$scope.draftDeleteSuccess = false;
+	$scope.alerts = {
+		messageSentSuccess: false,
+		draftSavedSuccess: false,
+		messageDeleteSuccess: false,
+		draftDeleteSuccess: false,
+		editDraftWarning: false
+	}
 
-	//bootstrap warnings
-	$scope.editDraftWarning = false;
-
+	$scope.pendingMessage = { //need to find a better way than this
+		recipient : "",
+		subject : "",
+		message : ""
+	}
 
 	$scope.getPrivateMessages = function() {
 		$http.get('/getPrivateMessages').success(function(data, status, headers, config){
@@ -59,7 +64,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 
 	$scope.sendPrivateMessage = function() {
 		$http.post('/sendPrivateMessage', {recipient: $scope.recipient, subject: $scope.subject, message: $scope.currentMessage}).success(function(data, status, headers, config){
-			$scope.messageSentSuccess = true;
+			$scope.alerts.messageSentSuccess = true;
 			if($scope.user === $scope.recipient){
 				$scope.getPrivateMessages();
 			}
@@ -72,14 +77,14 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 
 	$scope.saveDraft = function() {
 		$http.post('/saveDraft', {recipient: $scope.recipient, subject: $scope.subject, message: $scope.currentMessage}).success(function(data, status, headers, config){
-			$scope.draftSavedSuccess = true;
+			$scope.alerts.draftSavedSuccess = true;
 			$scope.getDrafts();
 		});
 	}
 
 	$scope.deleteSentMessage = function(id) {
 		$http.post('/deleteSentPrivateMessage', {id: id}).success(function(data, status, headers, config){ //consider using a delete?
-			$scope.messageDeleteSuccess = true;
+			$scope.alerts.messageDeleteSuccess = true;
 			$scope.getSentMessages();
 		});
 		$scope.isMessageView = false;
@@ -87,7 +92,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 
 	$scope.deleteRecievedMessage = function(id){
 		$http.post('/deleteRecievedPrivateMessage', {id: id}).success(function(data, status, headers, config){
-			$scope.messageDeleteSuccess = true;
+			$scope.alerts.messageDeleteSuccess = true;
 			$scope.getPrivateMessages();
 		});
 		$scope.isMessageView = false;
@@ -95,7 +100,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 
 	$scope.deleteDraft = function(id) {
 		$http.post('/deleteDraft', {id: id}).success(function(data, status, headers, config){
-			$scope.draftDeleteSuccess = true;
+			$scope.alerts.draftDeleteSuccess = true;
 			$scope.getDrafts(); 
 		});
 		$scope.isMessageView = false;
@@ -105,16 +110,19 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		$scope.isMessageView = false;
 		$scope.searchText = "";
 		$scope.selectedTab = tab;
+		disableAlerts();
 	};
 
 	$scope.edit = function(recipient, subject, message) {
 		$scope.isMessageView = false;
-		warnIfMessageInProgress();
-
-		$scope.recipient = recipient;
-		$scope.subject = subject;
-		$scope.currentMessage = message;
-		$scope.selectedTab = 0;
+		var warned = warnIfMessageInProgress();
+		if(warned) {
+			$scope.pendingMessage.recipient = recipient;
+			$scope.pendingMessage.subject = subject;
+			$scope.pendingMessage.message = message;
+			return;
+		}
+		$scope.populateMessageFields(recipient, subject, message);
 	};
 
 	$scope.reply = function(recipient) {
@@ -122,7 +130,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		warnIfMessageInProgress();
 
 		$scope.recipient = recipient;
-		$scope.selectedTab = 0;
+		$scope.changeTab(0);
 	}
 
 	$scope.enterMessageView = function(isFrom, message, messageViewMessageType) {
@@ -132,11 +140,25 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		$scope.isMessageView = true;
 	}
 
+	$scope.populateMessageFields = function(recipient, subject, message) {
+		$scope.recipient = recipient;
+		$scope.subject = subject;
+		$scope.currentMessage = message;
+		$scope.changeTab(0);
+	}
+
 	warnIfMessageInProgress = function() {
-		if($scope.recipient !== "" || $scope.currentMessage !== "" || $scope.subject !== "") { //improve later
-			$scope.editDraftWarning = true;
-			return;
+		if($scope.recipient !== "" || $scope.currentMessage !== "" || $scope.subject !== "") {
+			$scope.alerts.editDraftWarning = true;
+			return true;
 		} 
+		return false;
+	}
+
+	disableAlerts = function() {
+		for(var key in $scope.alerts){
+			$scope.alerts[key] = false;
+		}
 	}
 
 	initializePage = function() {
