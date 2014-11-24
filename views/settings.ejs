@@ -23,14 +23,15 @@
 
         </div>
     </nav>
-
-    <form role="form" ng-submit="changeSettings()">
-            <div class="form-group">
-                <div class="span2"><label>Profile Image URL: </label></div><div class="span2"><input type="text" id="profileImageURLSettings" ng-model="profileImageURLSettings" ng-bind="profileImageURLSettings" placeholder=""></input></div>
-                <div class="span2"><label>Bio: </label></div><div class="span2"><input type="text" id="bioSettings" ng-model="bioSettings" ng-bind="bioSettings" placeholder=""></input></div>
-            </div>
-        <input type="submit" class="btn btn-default" value="Submit" />
-    </form>
+    <div class="well">
+	    <form role="form" ng-submit="changeSettings()">
+	            <div class="form-group">
+	                <div class="span2"><label>Profile Image URL: </label></div><div class="span2"><input type="text" id="profileImageURLSettings" ng-model="profileImageURLSettings" ng-bind="profileImageURLSettings" placeholder=""></input></div>
+	                <div class="span2"><label>Bio: </label></div><div class="span2"><input type="text" id="bioSettings" ng-model="bioSettings" ng-bind="bioSettings" placeholder=""></input></div>
+	            </div>
+	        <input type="submit" class="btn btn-default" value="Submit" />
+	    </form>
+    </div>
 
     <div ng-show="settingPostSuccess" class="alert alert-success">Settings saved successfully!</div>
 

@@ -56,6 +56,10 @@ hr {
  	margin-bottom: 10px;
  }
 
+ .message-date{
+ 	text-align: right;
+ }
+
  .contact {
  	margin-left: 4px;
  }
@@ -72,11 +76,6 @@ hr {
 	margin-bottom: 5px;
 }
 
-.message-content {
-	max-width: 70%;
-	margin-left: 15px;
-	margin-top: 8px;
-}
 
  .field-desc {
  	display: inline-block;

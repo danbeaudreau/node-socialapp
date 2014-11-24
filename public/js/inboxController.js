@@ -52,6 +52,7 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 	$scope.getSentMessages = function() {
 		$http.get('/getSentMessages').success(function(data, status, headers, config){
 			$scope.sentMessages = data;
+			createMessagePreviews($scope.sentMessages);
 		});
 	}
 
@@ -146,6 +147,23 @@ app.controller("inboxController", function ($scope, $http, $filter) {
 		$scope.currentMessage = message;
 		$scope.changeTab(0);
 	}
+	createMessagePreviews = function(messages) {
+		for(var message in messages) {
+			var SPACE_AVAILABLE_PER_LINE = 150;
+			var NUM_OF_PERIODS = 3;
+			var spaceTaken = message.recipient.length + message.subject.length + message.date.length;
+			var freeSpace = SPACE_AVAILABLE_PER_LINE - spaceTaken;
+			var preview;
+			if(spaceTaken > freeSpace) {
+				preview = message.message.substr(0, freeSpace.length - NUM_OF_PERIODS);
+				preview = preview + '...';
+			} else {
+				preview = message.message;
+			}
+			message.preview = preview;
+		}
+	}
+
 
 	warnIfMessageInProgress = function() {
 		if($scope.recipient !== "" || $scope.currentMessage !== "" || $scope.subject !== "") {
