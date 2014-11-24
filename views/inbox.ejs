@@ -20,7 +20,7 @@
    </head>
    <body ng-controller="inboxController">
       <div class="container">
-         <nav class="navbar navbar-inverse">
+         <nav class="navbar navbar-inverse" style="background-color: #DCEDFF;">
             <div class="navbar-header">
                <%- include navbar.ejs %>
             </div>
@@ -32,7 +32,7 @@
          <div class="alert alert-warning" ng-show="alerts.editDraftWarning">Warning, you have a message in progress. Are you sure you want to overwrite it? If so, click <a ng-click="populateMessageFields(pendingMessage.recipient, pendingMessage.subject, pendingMessage.message)">here</a>.</div>
          <div class="well">
             <div class="col-md-3 sidebar">
-               <ul class="nav nav-sidebar">
+               <ul class="nav nav-sidebar" style="background:#6699FF">
                   <li class="ui-tab" id="compose-tab" ng-click="changeTab(0)"><a href="">Compose</a></li>
                   <li class="ui-tab" id="inbox-tab" ng-click="changeTab(1)"><a href="">Inbox</a></li>
                   <li class="ui-tab" id="drafts-tab" ng-click="changeTab(2)"><a href="">Drafts</a></li>
@@ -97,7 +97,9 @@
                   </div>
                   <div class="ui-content" ng-show="selectedTab === 4 && !isMessageView">
                      <li ng-repeat="contact in contacts">
-                        <div class="contact">{{contact.friend}}</div>
+                     <input ng-model="searchText" type="text" class="searchbar" placeholder="Search"></input>
+                      <button type="button" class="glyphicon-container" ng-click="getContacts()" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <div class="contact">{{contact.friend | filter:searchText}}</div>
                         <button type="button" ng-click="reply(contact.friend)" class="btn btn-default field-desc">Send Message</button>
                      </li>
                      <li class="empty-message" ng-if="contacts.length === 0">
