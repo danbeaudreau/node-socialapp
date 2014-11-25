@@ -8,6 +8,7 @@ REST API and front-end for social network application.
 #Newest Updates
 * Profile redesign (more modular)
 * Friends feature
+* Inbox for sending and recieving private messages
 
 #Installation
 * Grab a copy of this repository.
