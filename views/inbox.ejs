@@ -85,9 +85,10 @@
                      <button type="button" class="glyphicon-container" ng-click="getSentMessages()" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
                      <hr/>
                      <a ng-repeat="sentMessage in sentMessages | filter:searchText | orderBy: sentMessage.date" ng-click="enterMessageView(false, sentMessage, 'sent')" class="message-group">
-                        <span class="message-recipient">To: {{sentMessage.recipient}}</span>
-                        <span class="message-subject">Subject: {{sentMessage.subject}}</span>
-                        <span class="message-date">Date: {{sentMessage.date | date:'medium'}}</span>
+                        <span class="message-recipient">{{sentMessage.recipient}}</span>
+                        <span class="message-subject"><strong>{{sentMessage.subject}}</strong></span>
+                        <span class="message-date">{{sentMessage.date | date:'medium'}}</span>
+                        <span class="message-preview">{{sentMessage.preview}}</span>
                         <span class="message-content" ng-hide="true">Content: {{sentMessage.message}}</span>
                      </a>
                      <li class="empty-message" ng-if="sentMessages.length === 0"> 
