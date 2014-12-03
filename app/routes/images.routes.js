@@ -19,16 +19,27 @@ module.exports = function(router) {
             if(error) {
 				return;
 			}
-            res.send({
+			var imageData = {
+				username : req.session.passport.user,
+				date: new Date(),
+				urlExtension: filePath
+			}
+			Image image = new Image(imageData);
+			image.save(function(error, settings) {
+	          if(error){
+	            return;
+	          }
+	          res.send({
 				status: success;
-            });
+              });
+	        });
 		});
 	});
 	
 	
 	function generateImageUrlExtension() {
 		var imageUrl = "";
-		for(var i = 0; i < 100; i++) {
+		for(var i = 0; i < 8; i++) {
 			imageUrl += String.fromCharCode(0x0040 + Math.random() * (0x005B - 0x0041)+1);
 		}
 		return imageUrl;
