@@ -14,26 +14,28 @@ module.exports = function(router) {
     });
 	
 	router.post('/postImage', function(req, res){
-		var filePath  = '/images/' + generateImageUrlExtension();
-		fs.rename(req.files.photo.path, filePath, 	function(error) {
-            if(error) {
-				return;
-			}
-			var imageData = {
-				username : req.session.passport.user,
-				date: new Date(),
-				urlExtension: filePath
-			}
-			Image image = new Image(imageData);
-			image.save(function(error, settings) {
-	          if(error){
-	            return;
-	          }
-	          res.send({
-				status: success;
-              });
-	        });
-		});
+		if(req.isAuthenticated()){
+			var filePath  = '/images/' + generateImageUrlExtension();
+			fs.rename(req.files.photo.path, filePath, 	function(error) {
+				if(error) {
+					return;
+				}
+				var imageData = {
+					username : req.session.passport.user,
+					date: new Date(),
+					urlExtension: filePath
+				}
+				Image image = new Image(imageData);
+				image.save(function(error, settings) {
+				  if(error){
+					return;
+				  }
+				  res.send({
+					status: success;
+				  });
+				});
+			});
+		}
 	});
 	
 	
