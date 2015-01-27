@@ -3,12 +3,10 @@ Node.js Social Application
 
 REST API and front-end for social network application.
 
-![Screenshot](http://i.imgur.com/en1Ye2U.png)
-
-#Newest Updates
-* Profile redesign (more modular)
+#Features
+* Modular profiles 
 * Friends feature
-* Inbox for sending and recieving private messages
+* Inbox for sending and recieving messages
 
 #Installation
 * Grab a copy of this repository.
